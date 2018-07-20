@@ -21,8 +21,8 @@ plugins {
 }
 */
 version = "1.0"
-group= "com.cannonmc.musicmod" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "musicmod"
+group= "com.cannonmc.gpmm" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "gpmm"
 
 compileJava {
     sourceCompatibility = 1.8
