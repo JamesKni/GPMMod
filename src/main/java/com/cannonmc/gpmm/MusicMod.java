@@ -1,16 +1,24 @@
 package com.cannonmc.gpmm;
 
+import java.io.File;
 import java.io.FileReader;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import api.player.model.ModelPlayerAPI;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.ImageBufferDownload;
+import net.minecraft.client.renderer.ThreadDownloadImageData;
+import net.minecraft.client.renderer.texture.ITextureObject;
+import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.StringUtils;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -49,6 +57,8 @@ public class MusicMod
     public static String hexColour = "77e2ea";
     
     
+    private final ResourceLocation coverArt = null;
+    
     @EventHandler
     public void init(FMLInitializationEvent event) {
     	MinecraftForge.EVENT_BUS.register((Object) this);
@@ -57,6 +67,7 @@ public class MusicMod
     	ClientCommandHandler.instance.registerCommand(new RetardChat());
     	updatePlayback();
     	sprintToggle();
+
 
     }
     
@@ -98,7 +109,6 @@ public class MusicMod
     @SubscribeEvent
     public void playerLoggedIn(final FMLNetworkEvent.ClientConnectedToServerEvent event) {
         this.updateUI = true;
-        
     }
     
     @SubscribeEvent
@@ -127,13 +137,13 @@ public class MusicMod
         }
         this.mc.renderEngine.bindTexture(new ResourceLocation("gpmm", "texture/blue.png"));
         this.mc.ingameGUI.drawTexturedModalRect(0, height-2, 0, 0, (int)playingWidth, height);
-        
-       
+           
     }
     
     public static void sprintToggle() {
     	sprinting = !sprinting;
     }
+    
     
     public void updatePlayback() {
     	JSONParser parser = new JSONParser();
