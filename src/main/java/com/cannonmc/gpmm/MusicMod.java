@@ -35,6 +35,9 @@ public class MusicMod
     public String songDisliked;
     public String songPlaying;
     
+    public String totalTime;
+    public String currentTime;
+    
     public boolean hiddenHUD = true;;
     public int hideDelay;
     
@@ -78,7 +81,6 @@ public class MusicMod
     	}
     	
     	if (songPlaying == "false") {
-    		System.out.println(hideDelay);
     		hideDelay += 1;
     		if (hideDelay > 100) {
     			hiddenHUD = false;
@@ -107,11 +109,21 @@ public class MusicMod
             return;
         }
         final ScaledResolution scaled = new ScaledResolution(this.mc);
-        final int width = scaled.getScaledWidth();
+        int width = scaled.getScaledWidth();
         final int height = scaled.getScaledHeight();
         final int colour = Integer.parseInt(hexColour, 16);
-        this.mc.fontRendererObj.drawStringWithShadow(this.artist + " - " + this.title + "  " + this.extra, 5.0f, (float)(height - this.mc.fontRendererObj.FONT_HEIGHT), colour);
+        this.mc.fontRendererObj.drawStringWithShadow(this.artist + " - " + this.title + "  " + this.extra, 5.0f, (float)(height - this.mc.fontRendererObj.FONT_HEIGHT - 1), colour);
         
+        double playingWidth;
+        try {
+        	playingWidth = (Double.parseDouble(this.currentTime) / Double.parseDouble(this.totalTime)) * 107;
+            playingWidth = (width / 100) * playingWidth;
+        } catch(Exception ex) {
+        	playingWidth = 0;
+        }
+        this.mc.ingameGUI.drawScaledCustomSizeModalRect(0, height-2, 10, 1, 1, 1,(int)playingWidth, 1, 0, 0);
+        
+       
     }
     
     public static void sprintToggle() {
@@ -133,6 +145,11 @@ public class MusicMod
 			songDisliked = (String) rating.get("disliked").toString();
 			
 			songPlaying = (String) jsonObject.get("playing").toString();
+			
+			JSONObject time = (JSONObject) jsonObject.get("time");
+			
+			currentTime = (String) time.get("current").toString();
+			totalTime = (String) time.get("total").toString();
 			
 			
 		}catch (Exception e) {
