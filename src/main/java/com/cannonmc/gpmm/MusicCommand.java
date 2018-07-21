@@ -13,11 +13,11 @@ public class MusicCommand extends CommandBase {
 	}
 
 	public String getCommandName() {
-		return "GPM";
+		return "gpm";
 	}
 
 	public String getCommandUsage(ICommandSender sender) {
-		return "/GPM <Colour>";
+		return "/gpm <Colour>";
 	}
 
 	public void processCommand(ICommandSender sender, String[] args) throws CommandException {

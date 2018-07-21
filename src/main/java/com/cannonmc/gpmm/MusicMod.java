@@ -8,6 +8,9 @@ import org.json.simple.parser.JSONParser;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -112,16 +115,18 @@ public class MusicMod
         int width = scaled.getScaledWidth();
         final int height = scaled.getScaledHeight();
         final int colour = Integer.parseInt(hexColour, 16);
-        this.mc.fontRendererObj.drawStringWithShadow(this.artist + " - " + this.title + "  " + this.extra, 5.0f, (float)(height - this.mc.fontRendererObj.FONT_HEIGHT - 1), colour);
+        this.mc.fontRendererObj.drawStringWithShadow(this.artist + " - " + this.title + "  " + this.extra, 5.0f, (float)(height - this.mc.fontRendererObj.FONT_HEIGHT - 2), colour);
         
         double playingWidth;
         try {
         	playingWidth = (Double.parseDouble(this.currentTime) / Double.parseDouble(this.totalTime)) * 107;
             playingWidth = (width / 100) * playingWidth;
         } catch(Exception ex) {
-        	playingWidth = 0;
+        	ex.printStackTrace();
+        	playingWidth = 1;
         }
-        this.mc.ingameGUI.drawScaledCustomSizeModalRect(0, height-2, 10, 1, 1, 1,(int)playingWidth, 1, 0, 0);
+        this.mc.renderEngine.bindTexture(new ResourceLocation("gpmm", "texture/blue.png"));
+        this.mc.ingameGUI.drawTexturedModalRect(0, height-2, 0, 0, (int)playingWidth, height);
         
        
     }
