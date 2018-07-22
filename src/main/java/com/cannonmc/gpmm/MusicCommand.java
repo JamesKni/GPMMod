@@ -1,5 +1,7 @@
 package com.cannonmc.gpmm;
 
+import com.cannonmc.gpmm.config.Config;
+
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -47,6 +49,10 @@ public class MusicCommand extends CommandBase {
 			}
 			case "show": {
 				MusicMod.updateUI = true;
+				break;
+			}
+			case "update": {
+				Config.updateConfig();
 				break;
 			}
 			}

@@ -6,6 +6,8 @@ import java.io.FileReader;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import com.cannonmc.gpmm.config.Config;
+
 import api.player.model.ModelPlayerAPI;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -25,6 +27,8 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
@@ -35,6 +39,8 @@ public class MusicMod
     public static final String MODID = "gpmm";
     public static final String VERSION = "1.0";
     private static final Minecraft mc = Minecraft.getMinecraft();
+    
+    private File configFile;
    
     public final String playbackFile = System.getProperty("user.home") + "\\AppData\\Roaming\\Google Play Music Desktop Player\\json_store\\playback.json";
     public static boolean updateUI = false;
@@ -45,7 +51,6 @@ public class MusicMod
     public String songLiked;
     public String songDisliked;
     public String songPlaying;
-    
     public String totalTime;
     public String currentTime;
     
@@ -55,9 +60,13 @@ public class MusicMod
     public static boolean sprinting;
     
     public static String hexColour = "77e2ea";
+
     
-    
-    private final ResourceLocation coverArt = null;
+    @EventHandler
+    public void preInit(FMLPreInitializationEvent event) {
+    	configFile = event.getSuggestedConfigurationFile();
+    	Config.init(configFile);
+    }
     
     @EventHandler
     public void init(FMLInitializationEvent event) {
@@ -67,8 +76,11 @@ public class MusicMod
     	ClientCommandHandler.instance.registerCommand(new RetardChat());
     	updatePlayback();
     	sprintToggle();
-
-
+    }
+    
+    @EventHandler
+    public void postInit(FMLPostInitializationEvent event) {
+    	hexColour = Config.CFtextColour;
     }
     
     @SubscribeEvent
@@ -85,7 +97,6 @@ public class MusicMod
     		}else {
     			this.extra = "";
     		}
-    		
     	}
 
     	if (sprinting) {
@@ -135,7 +146,7 @@ public class MusicMod
         	ex.printStackTrace();
         	playingWidth = 1;
         }
-        this.mc.renderEngine.bindTexture(new ResourceLocation("gpmm", "texture/blue.png"));
+        this.mc.renderEngine.bindTexture(new ResourceLocation("gpmm", "texture/playbar.png"));
         this.mc.ingameGUI.drawTexturedModalRect(0, height-2, 0, 0, (int)playingWidth, height);
            
     }
