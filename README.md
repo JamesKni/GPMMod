@@ -8,13 +8,15 @@ Shows the currently playing song from [GPMDP](https://www.googleplaymusicdesktop
 ## Commands
 
 ### /gpm (x)
-- red - Changes the text colour to red
-- green - Changes the text colour to green
-- blue - Changes the text colour to blue
-- white - Changes the text colour to white
+- red - Changes the GPM HUD colour to red
+- green - Changes the GPM HUD colour to green
+- blue - Changes the GPM HUD colour to blue
+- white - Changes the GPM HUD colour to white
   
 - hide - Hides the GPM HUD
 - show - Shows the GPM HUD
+
+- update - Updates the HUD with any changes made to the config
 
 ### /retard (message)
  - rETArds yOUr mESSage FOr YOU 
