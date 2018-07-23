@@ -1,7 +1,8 @@
 package com.cannonmc.gpmm.util;
 
 import java.net.URL;
-import org.apache.commons.io.*;
+
+import org.apache.commons.io.IOUtils;
 
 import com.cannonmc.gpmm.MusicMod;
 
