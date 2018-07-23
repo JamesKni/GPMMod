@@ -10,8 +10,8 @@ public class Config {
 	public static Configuration config;
     public static final String CATEGORY_GENERAL = "general";
     
-    public static String CFtextColour;
-    public static String CFplaybarColour;
+    public static String CFcolour;
+    public static boolean CFsprinting;
     
     public static void init(File file) {
         if (Config.config == null) {
@@ -23,13 +23,16 @@ public class Config {
     
     public static void loadConfig() {
     	config.load();
-        CFtextColour = Config.config.getString("TextColour", "general", "77E2EA", "Colour of text (HEX)");
+        CFcolour = Config.config.getString("TextColour", CATEGORY_GENERAL, "77E2EA", "Colour of text (HEX)");
+        CFsprinting = Config.config.getBoolean("Sprinting", CATEGORY_GENERAL, true, "Start sprint toggled on");
+        
     }
     
     public static void updateConfig() {
     	System.out.println("Updating...");
     	loadConfig();
-    	MusicMod.hexColour = Config.CFtextColour;
+    	MusicMod.hexColour = Config.CFcolour;
+    	MusicMod.sprinting = Config.CFsprinting;
     }
 
 }

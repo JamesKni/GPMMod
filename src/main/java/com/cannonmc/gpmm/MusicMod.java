@@ -48,17 +48,16 @@ public class MusicMod
     public String title;
     public String artist;
     public String extra;
-    public String songLiked;
-    public String songDisliked;
-    public String songPlaying;
     public String totalTime;
     public String currentTime;
+    public boolean songLiked;
+    public boolean songDisliked;
+    public boolean songPlaying;
     
-    public boolean hiddenHUD = true;;
     public int hideDelay;
+    public boolean hiddenHUD = true;
     
     public static boolean sprinting;
-    
     public static String hexColour = "77e2ea";
 
     
@@ -75,12 +74,12 @@ public class MusicMod
     	ClientCommandHandler.instance.registerCommand(new SprintCommand());
     	ClientCommandHandler.instance.registerCommand(new RetardChat());
     	updatePlayback();
-    	sprintToggle();
     }
     
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-    	hexColour = Config.CFtextColour;
+    	hexColour = Config.CFcolour;
+    	sprinting = Config.CFsprinting;
     }
     
     @SubscribeEvent
@@ -90,9 +89,9 @@ public class MusicMod
     	if(updateUI == true) {
     		updatePlayback();
     		
-    		if (songLiked == "true") {
+    		if (songLiked == true) {
     			this.extra = "[Like]";
-    		}else if(songDisliked == "true") {
+    		}else if(songDisliked == true) {
     			this.extra = "[Dislike]";
     		}else {
     			this.extra = "";
@@ -105,7 +104,7 @@ public class MusicMod
     		KeyBinding.setKeyBindState(keySprint, false);
     	}
     	
-    	if (songPlaying == "false") {
+    	if (songPlaying == false) {
     		hideDelay += 1;
     		if (hideDelay > 100) {
     			hiddenHUD = false;
@@ -165,22 +164,25 @@ public class MusicMod
 			JSONObject song = (JSONObject) jsonObject.get("song");
 			title = (String) song.get("title");
 			artist = (String) song.get("artist");
-			
 			JSONObject rating = (JSONObject) jsonObject.get("rating");
-			songLiked = (String) rating.get("liked").toString();
-			songDisliked = (String) rating.get("disliked").toString();
-			
-			songPlaying = (String) jsonObject.get("playing").toString();
-			
+			songLiked = stringToBoolean((String) rating.get("liked").toString());
+			songDisliked = stringToBoolean((String) rating.get("disliked").toString());
+			songPlaying = stringToBoolean((String) jsonObject.get("playing").toString());
 			JSONObject time = (JSONObject) jsonObject.get("time");
-			
 			currentTime = (String) time.get("current").toString();
 			totalTime = (String) time.get("total").toString();
-			
 			
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
 
+    }
+    
+    public static boolean stringToBoolean(String input) {
+    	if (input == "true") {
+    		return true;
+    	}else {
+    		return false;
+    	}
     }
 }
