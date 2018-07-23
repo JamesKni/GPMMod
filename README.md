@@ -18,5 +18,9 @@ Shows the currently playing song from [GPMDP](https://www.googleplaymusicdesktop
 
 - update - Updates the HUD with any changes made to the config
 
+## /sprint
+ - Toggles sprint on and off (Default: ON)
+
 ### /retard (message)
  - rETArds yOUr mESSage FOr YOU 
+ 
