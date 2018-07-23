@@ -65,7 +65,6 @@ public class MusicMod
     
     public static boolean sprinting;
     public static String hexColour = "77e2ea";
-
     
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -127,9 +126,6 @@ public class MusicMod
     public void playerLoggedIn(final FMLNetworkEvent.ClientConnectedToServerEvent event) {
         this.updateUI = true;
         
-        if (outdated == true && Config.CFupdatenotifications == true) {
-        	mc.thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "GPMM is out of date. Version " + UpdateCheck.latestVersion + " is now avaliable"));
-        }
     }
     
     @SubscribeEvent
@@ -158,6 +154,12 @@ public class MusicMod
         }
         this.mc.renderEngine.bindTexture(new ResourceLocation("gpmm", "texture/playbar.png"));
         this.mc.ingameGUI.drawTexturedModalRect(0, height-2, 0, 0, (int)playingWidth, 5);
+        
+        if (outdated && Config.CFupdatenotifications) {
+        	this.mc.fontRendererObj.drawStringWithShadow("OUT OF DATE", width-85, (float)(height - this.mc.fontRendererObj.FONT_HEIGHT - 7), Integer.parseInt("FF0000", 16));
+        	this.mc.renderEngine.bindTexture(new ResourceLocation("gpmm", "texture/outofdate.png"));
+        	this.mc.ingameGUI.drawScaledCustomSizeModalRect(width-20, height-22, 0, 0, 20, 20, 20, 20, 20, 20);
+        }
            
     }
     

@@ -13,8 +13,10 @@ public class UpdateCheck {
 	public static void versionCheck() {
 		try {
 			final String latestVersion = IOUtils.toString(new URL("https://raw.githubusercontent.com/JamesKni/GPMMod/master/Latestversion"));
+			System.out.println(latestVersion);
 			if (Float.parseFloat(latestVersion) > Float.parseFloat(MusicMod.VERSION) ) {
 				MusicMod.outdated = true;
+				System.out.println("##### Out of date mod #####");
 			}
 			
 		}catch (Exception e) {
