@@ -12,6 +12,7 @@ public class Config {
     
     public static String CFcolour;
     public static boolean CFsprinting;
+    public static boolean CFupdatenotifications;
     
     public static void init(File file) {
         if (Config.config == null) {
@@ -24,7 +25,9 @@ public class Config {
     public static void loadConfig() {
     	config.load();
         CFcolour = Config.config.getString("TextColour", CATEGORY_GENERAL, "77E2EA", "Colour of text (HEX)");
-        CFsprinting = Config.config.getBoolean("Sprinting", CATEGORY_GENERAL, true, "Start sprint toggled on");
+        CFsprinting = Config.config.getBoolean("Sprinting", CATEGORY_GENERAL, true, "Start with sprint toggled on");
+        CFupdatenotifications = Config.config.getBoolean("UpdateNotifications", CATEGORY_GENERAL, true, "Be notified if a new version is avalible");
+        
         
     }
     

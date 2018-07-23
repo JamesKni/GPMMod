@@ -10,6 +10,7 @@ import com.cannonmc.gpmm.commands.MusicCommand;
 import com.cannonmc.gpmm.commands.RetardChat;
 import com.cannonmc.gpmm.commands.SprintCommand;
 import com.cannonmc.gpmm.config.Config;
+import com.cannonmc.gpmm.util.UpdateCheck;
 
 import api.player.model.ModelPlayerAPI;
 import net.minecraft.client.Minecraft;
@@ -22,6 +23,7 @@ import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StringUtils;
 import net.minecraftforge.client.ClientCommandHandler;
@@ -42,6 +44,7 @@ public class MusicMod
     public static final String MODID = "gpmm";
     public static final String VERSION = "1.0";
     private static final Minecraft mc = Minecraft.getMinecraft();
+    public static boolean outdated = false;
     
     private File configFile;
    
@@ -68,6 +71,7 @@ public class MusicMod
     public void preInit(FMLPreInitializationEvent event) {
     	configFile = event.getSuggestedConfigurationFile();
     	Config.init(configFile);
+    	UpdateCheck.versionCheck();
     }
     
     @EventHandler
@@ -122,6 +126,10 @@ public class MusicMod
     @SubscribeEvent
     public void playerLoggedIn(final FMLNetworkEvent.ClientConnectedToServerEvent event) {
         this.updateUI = true;
+        
+        if (outdated == true && Config.CFupdatenotifications == true) {
+        	mc.thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "GPMM is out of date. Version " + UpdateCheck.latestVersion + " is now avaliable"));
+        }
     }
     
     @SubscribeEvent
