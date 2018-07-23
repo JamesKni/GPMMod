@@ -6,6 +6,9 @@ import java.io.FileReader;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import com.cannonmc.gpmm.commands.MusicCommand;
+import com.cannonmc.gpmm.commands.RetardChat;
+import com.cannonmc.gpmm.commands.SprintCommand;
 import com.cannonmc.gpmm.config.Config;
 
 import api.player.model.ModelPlayerAPI;

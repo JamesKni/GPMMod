@@ -1,4 +1,6 @@
-package com.cannonmc.gpmm;
+package com.cannonmc.gpmm.commands;
+
+import com.cannonmc.gpmm.MusicMod;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;

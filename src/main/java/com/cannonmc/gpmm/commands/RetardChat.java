@@ -1,4 +1,4 @@
-package com.cannonmc.gpmm;
+package com.cannonmc.gpmm.commands;
 
 import java.util.Random;
 

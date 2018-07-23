@@ -1,5 +1,6 @@
-package com.cannonmc.gpmm;
+package com.cannonmc.gpmm.commands;
 
+import com.cannonmc.gpmm.MusicMod;
 import com.cannonmc.gpmm.config.Config;
 
 import net.minecraft.command.CommandBase;
