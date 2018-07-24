@@ -13,6 +13,7 @@ public class Config {
     public static String CFcolour;
     public static boolean CFsprinting;
     public static boolean CFupdatenotifications;
+    public static int CFrequestspeed;
     
     public static void init(File file) {
         if (Config.config == null) {
@@ -27,7 +28,7 @@ public class Config {
         CFcolour = Config.config.getString("TextColour", CATEGORY_GENERAL, "77E2EA", "Colour of text (HEX)");
         CFsprinting = Config.config.getBoolean("Sprinting", CATEGORY_GENERAL, true, "Start with sprint toggled on");
         CFupdatenotifications = Config.config.getBoolean("UpdateNotifications", CATEGORY_GENERAL, true, "Be notified if a new version is avalible");
-        
+        CFrequestspeed = Config.config.getInt("RequestSpeed", CATEGORY_GENERAL, 5, 2 , 100, "The Speed at which the mod accesses the playback file");
         
     }
     
@@ -36,6 +37,7 @@ public class Config {
     	loadConfig();
     	MusicMod.hexColour = Config.CFcolour;
     	MusicMod.sprinting = Config.CFsprinting;
+    	MusicMod.requestCounter = 0;
     }
 
 }

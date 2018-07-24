@@ -56,6 +56,8 @@ public class MusicMod
     public static boolean sprinting;
     public static String hexColour = "77e2ea";
     
+    public static int requestCounter = 0;
+    
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
     	configFile = event.getSuggestedConfigurationFile();
@@ -83,8 +85,14 @@ public class MusicMod
     	final int keySprint = this.mc.gameSettings.keyBindSprint.getKeyCode();
     	
     	if(updateUI == true) {
-    		updatePlayback();
-    		
+    		if (requestCounter == 1) { 
+        		updatePlayback();
+        		System.out.println("UPDATE PLAYBACK");
+    		}else if(requestCounter == Config.CFrequestspeed){
+    			requestCounter = 0;
+    		}
+    		System.out.println(requestCounter);
+    		requestCounter += 1;
     		if (songLiked == true) {
     			this.extra = "[Like]";
     		}else if(songDisliked == true) {
