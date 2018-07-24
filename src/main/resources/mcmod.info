@@ -1,12 +1,12 @@
 [
 {
   "modid": "gpmm",
-  "name": "Google Play Music mod",
+  "name": "Google Play Music Mod",
   "description": "",
   "version": "${version}",
-  "mcversion": "${mcversion}",
-  "url": "",
-  "updateUrl": "",
+  "mcversion": "[1.8, 1.8.9]}",
+  "url": "https://github.com/JamesKni/GPMMod",
+  "updateUrl": "https://github.com/JamesKni/GPMMod/releases",
   "authorList": ["James"],
   "credits": "",
   "logoFile": "",

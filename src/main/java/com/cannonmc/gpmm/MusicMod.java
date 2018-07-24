@@ -28,11 +28,12 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 
-@Mod(modid = MusicMod.MODID, version = MusicMod.VERSION)
+@Mod(modid = MusicMod.MODID, version = MusicMod.VERSION, acceptedMinecraftVersions = MusicMod.ACCEPTED_VERSIONS)
 public class MusicMod
 {
     public static final String MODID = "gpmm";
-    public static final String VERSION = "0.9";
+    public static final String VERSION = "1";
+    public static final String ACCEPTED_VERSIONS = "[1.8, 1.8.9]";
     private static final Minecraft mc = Minecraft.getMinecraft();
     public static boolean outdated = false;
     
@@ -87,12 +88,11 @@ public class MusicMod
     	if(updateUI == true) {
     		if (requestCounter == 1) { 
         		updatePlayback();
-        		System.out.println("UPDATE PLAYBACK");
     		}else if(requestCounter == Config.CFrequestspeed){
     			requestCounter = 0;
     		}
-    		System.out.println(requestCounter);
     		requestCounter += 1;
+    		
     		if (songLiked == true) {
     			this.extra = "[Like]";
     		}else if(songDisliked == true) {
