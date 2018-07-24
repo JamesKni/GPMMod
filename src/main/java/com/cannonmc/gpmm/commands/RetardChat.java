@@ -6,8 +6,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 
 public class RetardChat extends CommandBase{
 	
@@ -17,23 +18,23 @@ public class RetardChat extends CommandBase{
 		return true;
 	}
 
-	public String getCommandName() {
+	public String getName() {
 		return "retard";
 	}
 
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return "/retard <message>";
 	}
 
-	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 		if(args.length == 0) {
-			sender.addChatMessage(new ChatComponentText(EnumChatFormatting.LIGHT_PURPLE + "NoT liKe ThaT!") );
+			sender.sendMessage(new TextComponentString(TextFormatting.LIGHT_PURPLE + "NoT liKe ThaT!") );
 		}else {
 			String message = ""; 
 			for(int i = 0; i != args.length; i++) {
 				message += args[i] + " ";
 			}
-			Minecraft.getMinecraft().thePlayer.sendChatMessage(Retardate(message));
+			Minecraft.getMinecraft().player.sendChatMessage(Retardate(message));
 		}
 	}
 	

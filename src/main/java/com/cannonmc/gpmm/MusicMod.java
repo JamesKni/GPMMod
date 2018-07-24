@@ -28,11 +28,12 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 
-@Mod(modid = MusicMod.MODID, version = MusicMod.VERSION)
+@Mod(modid = MusicMod.MODID, version = MusicMod.VERSION, acceptedMinecraftVersions = MusicMod.ACCEPTED_VERSIONS)
 public class MusicMod
 {
     public static final String MODID = "gpmm";
-    public static final String VERSION = "0.9";
+    public static final String VERSION = "1";
+    public static final String ACCEPTED_VERSIONS = "[1.12, 1.12.2]";
     private static final Minecraft mc = Minecraft.getMinecraft();
     public static boolean outdated = false;
     
@@ -87,12 +88,11 @@ public class MusicMod
     	if(updateUI == true) {
     		if (requestCounter == 1) { 
         		updatePlayback();
-        		System.out.println("UPDATE PLAYBACK");
     		}else if(requestCounter == Config.CFrequestspeed){
     			requestCounter = 0;
     		}
-    		System.out.println(requestCounter);
     		requestCounter += 1;
+    		
     		if (songLiked == true) {
     			this.extra = "[Like]";
     		}else if(songDisliked == true) {
@@ -133,14 +133,14 @@ public class MusicMod
     
     @SubscribeEvent
     public void onRenderGameOverlay(final RenderGameOverlayEvent e) {
-        if (e.type != RenderGameOverlayEvent.ElementType.TEXT || !updateUI || !hiddenHUD) {
+        if (e.getType() != RenderGameOverlayEvent.ElementType.TEXT || !updateUI || !hiddenHUD) {
             return;
         }
         final ScaledResolution scaled = new ScaledResolution(this.mc);
         int width = scaled.getScaledWidth();
         final int height = scaled.getScaledHeight();
         final int colour = Integer.parseInt(hexColour, 16);
-        this.mc.fontRendererObj.drawStringWithShadow(this.artist + " - " + this.title + "  " + this.extra, 5.0f, (float)(height - this.mc.fontRendererObj.FONT_HEIGHT - 2), colour);
+        this.mc.fontRenderer.drawStringWithShadow(this.artist + " - " + this.title + "  " + this.extra, 5.0f, (float)(height - this.mc.fontRenderer.FONT_HEIGHT - 2), colour);
         
         double playingWidth;
         try {
@@ -154,7 +154,7 @@ public class MusicMod
         this.mc.ingameGUI.drawTexturedModalRect(0, height-2, 0, 0, (int)playingWidth, 5);
         
         if (outdated && Config.CFupdatenotifications) {
-        	this.mc.fontRendererObj.drawStringWithShadow("OUT OF DATE", width-85, (float)(height - this.mc.fontRendererObj.FONT_HEIGHT - 7), Integer.parseInt("FF0000", 16));
+        	this.mc.fontRenderer.drawStringWithShadow("OUT OF DATE", width-85, (float)(height - this.mc.fontRenderer.FONT_HEIGHT - 7), Integer.parseInt("FF0000", 16));
         	this.mc.renderEngine.bindTexture(new ResourceLocation("gpmm", "texture/outofdate.png"));
         	this.mc.ingameGUI.drawScaledCustomSizeModalRect(width-20, height-22, 0, 0, 20, 20, 20, 20, 20, 20);
         }

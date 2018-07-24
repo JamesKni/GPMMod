@@ -2,14 +2,14 @@ package com.cannonmc.gpmm.commands;
 
 import com.cannonmc.gpmm.MusicMod;
 import com.cannonmc.gpmm.config.Config;
+import com.mojang.realmsclient.gui.ChatFormatting;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.text.TextComponentString;
 
 public class MusicCommand extends CommandBase {
 
@@ -17,15 +17,15 @@ public class MusicCommand extends CommandBase {
 		return true;
 	}
 
-	public String getCommandName() {
+	public String getName() {
 		return "gpm";
 	}
 
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return "/gpm <Colour>";
 	}
 
-	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 		if (args.length == 0) {
 			showHelp();
 		} else if (args.length == 1) {
@@ -71,16 +71,16 @@ public class MusicCommand extends CommandBase {
 
 	}
 	public void showHelp() {
-		Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD + "GPM Help"));
-		Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD + "--------------------------------------------"));
-		Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD + "/gpm red - Changes the GPM HUD colour to red"));
-		Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD + "/gpm green - Changes the GPM HUD colour to green"));
-		Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD + "/gpm blue - Changes the GPM HUD colour to blue"));
-		Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD + "/gpm white - Changes the GPM HUD colour to white"));
-		Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD + "/gpm pink - Changes the GPM HUD colour to pink"));
-		Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD + "/gpm hide - Hides the GPM HUD"));
-		Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD + "/gpm show - Shows the GPM HUD"));
-		Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD + "/gpm update - updates GPM HUD with changes made"));
+		Minecraft.getMinecraft().player.sendMessage(new TextComponentString(ChatFormatting.GOLD + "GPM Help"));
+		Minecraft.getMinecraft().player.sendMessage(new TextComponentString(ChatFormatting.GOLD + "--------------------------------------------"));
+		Minecraft.getMinecraft().player.sendMessage(new TextComponentString(ChatFormatting.GOLD + "/gpm red - Changes the GPM HUD colour to red"));
+		Minecraft.getMinecraft().player.sendMessage(new TextComponentString(ChatFormatting.GOLD + "/gpm green - Changes the GPM HUD colour to green"));
+		Minecraft.getMinecraft().player.sendMessage(new TextComponentString(ChatFormatting.GOLD + "/gpm blue - Changes the GPM HUD colour to blue"));
+		Minecraft.getMinecraft().player.sendMessage(new TextComponentString(ChatFormatting.GOLD + "/gpm white - Changes the GPM HUD colour to white"));
+		Minecraft.getMinecraft().player.sendMessage(new TextComponentString(ChatFormatting.GOLD + "/gpm pink - Changes the GPM HUD colour to pink"));
+		Minecraft.getMinecraft().player.sendMessage(new TextComponentString(ChatFormatting.GOLD + "/gpm hide - Hides the GPM HUD"));
+		Minecraft.getMinecraft().player.sendMessage(new TextComponentString(ChatFormatting.GOLD + "/gpm show - Shows the GPM HUD"));
+		Minecraft.getMinecraft().player.sendMessage(new TextComponentString(ChatFormatting.GOLD + "/gpm update - updates GPM HUD with changes made"));
 
 	}
 

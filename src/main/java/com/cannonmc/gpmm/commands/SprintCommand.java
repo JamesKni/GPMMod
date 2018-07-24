@@ -5,8 +5,9 @@ import com.cannonmc.gpmm.MusicMod;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 
 public class SprintCommand extends CommandBase {
 
@@ -14,20 +15,20 @@ public class SprintCommand extends CommandBase {
 		return true;
 	}
 
-	public String getCommandName() {
+	public String getName() {
 		return "sprint";
 	}
 
-	public String getCommandUsage(ICommandSender sender) {
+	public String getUsage(ICommandSender sender) {
 		return "/sprint";
 	}
 
-	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 		MusicMod.sprintToggle();
 		if (MusicMod.sprinting) {
-			sender.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD + "Sprint: " + EnumChatFormatting.GREEN + "ON"));
+			sender.sendMessage(new TextComponentString(TextFormatting.GOLD + "Sprint: " + TextFormatting.GREEN + "ON"));
 		}else {
-			sender.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD + "Sprint: " + EnumChatFormatting.RED +  "OFF"));
+			sender.sendMessage(new TextComponentString(TextFormatting.GOLD + "Sprint: " + TextFormatting.RED +  "OFF"));
 		}
 		
 	}
