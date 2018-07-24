@@ -6,6 +6,7 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 
 public class SprintCommand extends CommandBase {
 
@@ -23,7 +24,12 @@ public class SprintCommand extends CommandBase {
 
 	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
 		MusicMod.sprintToggle();
-		sender.addChatMessage(new ChatComponentText("Sprint toggled"));
+		if (MusicMod.sprinting) {
+			sender.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD + "Sprint: " + EnumChatFormatting.GREEN + "ON"));
+		}else {
+			sender.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD + "Sprint: " + EnumChatFormatting.RED +  "OFF"));
+		}
+		
 	}
 
 }

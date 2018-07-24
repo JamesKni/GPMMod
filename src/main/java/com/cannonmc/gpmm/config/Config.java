@@ -26,7 +26,7 @@ public class Config {
     public static void loadConfig() {
     	config.load();
         CFcolour = Config.config.getString("TextColour", CATEGORY_GENERAL, "77E2EA", "Colour of text (HEX)");
-        CFsprinting = Config.config.getBoolean("Sprinting", CATEGORY_GENERAL, true, "Start with sprint toggled on");
+        CFsprinting = Config.config.getBoolean("Sprinting", CATEGORY_GENERAL, false, "Start with sprint toggled on");
         CFupdatenotifications = Config.config.getBoolean("UpdateNotifications", CATEGORY_GENERAL, true, "Be notified if a new version is avalible");
         CFrequestspeed = Config.config.getInt("RequestSpeed", CATEGORY_GENERAL, 5, 2 , 100, "The Speed at which the mod accesses the playback file");
         
