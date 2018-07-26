@@ -36,10 +36,13 @@ public class MusicMod
     public static final String ACCEPTED_VERSIONS = "[1.8, 1.8.9]";
     private static final Minecraft mc = Minecraft.getMinecraft();
     public static boolean outdated = false;
+    public static String OS;
     
     private File configFile;
    
-    public final String playbackFile = System.getProperty("user.home") + "\\AppData\\Roaming\\Google Play Music Desktop Player\\json_store\\playback.json";
+    public static final String playbackFileWindows = System.getProperty("user.home") + "\\AppData\\Roaming\\Google Play Music Desktop Player\\json_store\\playback.json";
+    public static final String playbackFileLinux = System.getProperty("user.home") + "\\.config\\Google Play Music Desktop Player\\\\json_store\\\\playback.json";
+    public static String playbackFileFallback;
     public static boolean updateUI = false;
     
     public String title;
@@ -50,13 +53,12 @@ public class MusicMod
     public boolean songLiked;
     public boolean songDisliked;
     public boolean songPlaying;
-    
     public int hideDelay;
     public boolean hiddenHUD = true;
     
     public static boolean sprinting;
     public static String hexColour = "77e2ea";
-    
+   
     public static int requestCounter = 0;
     
     @EventHandler
@@ -64,6 +66,8 @@ public class MusicMod
     	configFile = event.getSuggestedConfigurationFile();
     	Config.init(configFile);
     	UpdateCheck.versionCheck();
+    	
+    	OSFinder();
     }
     
     @EventHandler
@@ -79,6 +83,7 @@ public class MusicMod
     public void postInit(FMLPostInitializationEvent event) {
     	hexColour = Config.CFcolour;
     	sprinting = Config.CFsprinting;
+    	playbackFileFallback = Config.CFfallbackjson;
     }
     
     @SubscribeEvent
@@ -165,12 +170,40 @@ public class MusicMod
     	sprinting = !sprinting;
     }
     
+    public static void OSFinder() {
+    	try {
+    		System.out.println("Windows test");
+    		OS = "windows";
+    		FileReader testFile = new FileReader(playbackFileWindows);
+    		testFile.close();
+    	} catch(Exception e) {
+    		try {
+    			System.out.println("Linux test");
+    			OS = "linux";
+    			FileReader testFile = new FileReader(playbackFileLinux);
+        		testFile.close();
+    		}catch (Exception ex) {
+    			OS = "unknown";
+    		}
+    	}
+    }
     
-    public void updatePlayback() {
+    
+ 
+	public void updatePlayback() {
     	JSONParser parser = new JSONParser();
 		
 		try {
-			Object obj = parser.parse(new FileReader(playbackFile));
+			FileReader file;
+			if (OS == "windows") {
+				file = new FileReader(playbackFileWindows);
+			}else if (OS == "linux") {
+				file = new FileReader(playbackFileLinux);
+			}else {
+				file = new FileReader(playbackFileFallback);
+			}
+			
+			Object obj = parser.parse(file);
 			JSONObject jsonObject = (JSONObject) obj;
 			JSONObject song = (JSONObject) jsonObject.get("song");
 			title = (String) song.get("title");

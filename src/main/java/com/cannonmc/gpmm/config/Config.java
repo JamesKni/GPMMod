@@ -14,6 +14,7 @@ public class Config {
     public static boolean CFsprinting;
     public static boolean CFupdatenotifications;
     public static int CFrequestspeed;
+    public static String CFfallbackjson;
     
     public static void init(File file) {
         if (Config.config == null) {
@@ -29,7 +30,7 @@ public class Config {
         CFsprinting = Config.config.getBoolean("Sprinting", CATEGORY_GENERAL, false, "Start with sprint toggled on");
         CFupdatenotifications = Config.config.getBoolean("UpdateNotifications", CATEGORY_GENERAL, true, "Be notified if a new version is avalible");
         CFrequestspeed = Config.config.getInt("RequestSpeed", CATEGORY_GENERAL, 5, 2 , 100, "The Speed at which the mod accesses the playback file");
-        
+        CFfallbackjson = Config.config.getString("FallbackJSON", CATEGORY_GENERAL, "/", "Used if the json file is not in one of the usual locations");
     }
     
     public static void updateConfig() {
