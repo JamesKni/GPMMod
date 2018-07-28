@@ -15,6 +15,7 @@ public class WeatherGetter {
 	
 	public static String CURRENT_CONDIDTIONS;
 	public static String CURRENT_TEMP;
+	public static String CURRENT_ICON;
 	
 	private final static String DS_APIKEY = Config.CFDARKSKY_API_KEY;
 	private final static String LOCATION = Config.CFlocation;
@@ -53,6 +54,7 @@ public class WeatherGetter {
 
 			CURRENT_CONDIDTIONS = (String) currently.get("summary");
 			CURRENT_TEMP = Double.toString(((((Double) currently.get("temperature")) - 32)* 0.556));
+			CURRENT_ICON = (String) currently.get("icon");
 			System.out.println("Weather updated");
 		}catch (Exception e) {
 			e.printStackTrace();

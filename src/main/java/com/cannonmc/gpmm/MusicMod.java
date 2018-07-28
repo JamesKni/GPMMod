@@ -38,7 +38,7 @@ import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 public class MusicMod
 {
     public static final String MODID = "gpmm";
-    public static final String VERSION = "1.2";
+    public static final String VERSION = "1.3";
     public static final String ACCEPTED_VERSIONS = "[1.8, 1.8.9]";
     private static final Minecraft mc = Minecraft.getMinecraft();
     public static boolean outdated = false;
@@ -154,18 +154,23 @@ public class MusicMod
         if (e.type != RenderGameOverlayEvent.ElementType.TEXT) {
             return;
         }
+        
+        final ScaledResolution scaled = new ScaledResolution(this.mc);
+        int width = scaled.getScaledWidth();
+        final int height = scaled.getScaledHeight();
+        final int colour = Integer.parseInt(hexColour, 16);
    
     	if (Config.CFweatherhud) {
-        	this.mc.fontRendererObj.drawStringWithShadow(WeatherGetter.CURRENT_CONDIDTIONS + ", " + WeatherGetter.CURRENT_TEMP.substring(0,4) + "C", Config.CFweatherX, 5, Integer.parseInt(hexColour, 16));
+        	this.mc.fontRendererObj.drawStringWithShadow(WeatherGetter.CURRENT_TEMP.substring(0,4) + " C", width - 80, 25, Integer.parseInt("888888", 16));
+            this.mc.renderEngine.bindTexture(new ResourceLocation("gpmm", "icons/" + WeatherGetter.CURRENT_ICON + ".png"));
+        	this.mc.ingameGUI.drawScaledCustomSizeModalRect(width-60, 0, 0, 0, 40, 40, 50, 50, 50, 50);
+
         }
     	
         if (!updateUI || !hiddenHUD) {
         	return;
         }
-        final ScaledResolution scaled = new ScaledResolution(this.mc);
-        int width = scaled.getScaledWidth();
-        final int height = scaled.getScaledHeight();
-        final int colour = Integer.parseInt(hexColour, 16);
+        
         this.mc.fontRendererObj.drawStringWithShadow(this.artist + " - " + this.title + "  " + this.extra, 5.0f, (float)(height - this.mc.fontRendererObj.FONT_HEIGHT - 2), colour);
         
         double playingWidth;
@@ -178,6 +183,8 @@ public class MusicMod
         }
         this.mc.renderEngine.bindTexture(new ResourceLocation("gpmm", "texture/playbar.png"));
         this.mc.ingameGUI.drawTexturedModalRect(0, height-2, 0, 0, (int)playingWidth, 5); 
+        
+
         
         if (outdated && Config.CFupdatenotifications) {
         	this.mc.fontRendererObj.drawStringWithShadow("OUT OF DATE", width-85, (float)(height - this.mc.fontRendererObj.FONT_HEIGHT - 7), Integer.parseInt("FF0000", 16));
