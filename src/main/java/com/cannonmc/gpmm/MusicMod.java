@@ -37,7 +37,7 @@ public class MusicMod
     private static final Minecraft mc = Minecraft.getMinecraft();
     public static boolean outdated = false;
     public static String OS;
-    
+    //test
     private File configFile;
    
     public static final String playbackFileWindows = System.getProperty("user.home") + "\\AppData\\Roaming\\Google Play Music Desktop Player\\json_store\\playback.json";

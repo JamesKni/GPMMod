@@ -12,7 +12,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 
 public class MusicCommand extends CommandBase {
-
+	
 	public boolean canCommandSenderUseCommand(final ICommandSender sender) {
 		return true;
 	}
