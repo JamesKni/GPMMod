@@ -182,17 +182,19 @@ public class MusicMod
     
     public static void OSFinder() {
     	try {
-    		System.out.println("Windows test");
+    		System.out.println("Windows test...");
     		OS = "windows";
     		FileReader testFile = new FileReader(playbackFileWindows);
     		testFile.close();
     	} catch(Exception e) {
+    		System.out.println("FAILED");
     		try {
-    			System.out.println("Linux test");
+    			System.out.println("Linux test...");
     			OS = "linux";
     			FileReader testFile = new FileReader(playbackFileLinux);
         		testFile.close();
     		}catch (Exception ex) {
+    			System.out.println("FAILED - USING FALLBACK PATH");
     			OS = "unknown";
     		}
     	}

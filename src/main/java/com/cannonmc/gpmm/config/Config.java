@@ -40,7 +40,7 @@ public class Config {
         CFrequestspeed = Config.config.getInt("RequestSpeed", CATEGORY_GENERAL, 5, 2 , 100, "The Speed at which the mod accesses the playback file");
         CFfallbackjson = Config.config.getString("FallbackJSON", CATEGORY_GENERAL, "/", "Used if the json file is not in one of the usual locations");
         
-        CFweatherhud = Config.config.getBoolean("WeatherHUD", CATEGORY_WEATHER, true, "Enable weather HUD");
+        CFweatherhud = Config.config.getBoolean("WeatherHUD", CATEGORY_WEATHER, false, "Enable weather HUD");
         CFweatherX = Config.config.getInt("WeatherXpos", CATEGORY_WEATHER, 5, 1, 1000000, "Location on the screen (X)");
         CFDARKSKY_API_KEY = Config.config.getString("DARKSKY_API_KEY", CATEGORY_WEATHER, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX", "Put your Dark Sky API key here. https://darksky.net/dev");
         CFlocation = Config.config.getString("Location", CATEGORY_WEATHER, "51.5031729,-0.1873927", "Put your latitude and longitude here");

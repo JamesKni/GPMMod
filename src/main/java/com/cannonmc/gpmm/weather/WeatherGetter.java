@@ -24,10 +24,11 @@ public class WeatherGetter {
 	private static boolean updatedWeather = false;
 	
 	public static void weatherCheck() {
-		if (java.time.LocalTime.now().getMinute() == 00 && updatedWeather == false) {
+		if (java.time.LocalTime.now().getMinute() == 0 && updatedWeather == false) {
 			updateWeather();
 			updatedWeather = true;
 		}else if(java.time.LocalTime.now().getMinute() == 5 && updatedWeather == true){
+			System.out.println("Weather update: Ready");
 			updatedWeather = false;
 		}
 	
@@ -35,7 +36,7 @@ public class WeatherGetter {
 	public static String getURL() throws IOException {
 		try {
 			URL request = new URL("https://api.darksky.net/forecast/" + DS_APIKEY + "/" + LOCATION);
-			System.out.println(request);
+			System.out.println("Request URL: " + request);
 			String weather_report = IOUtils.toString(request);
 			return weather_report;
 		} catch (MalformedURLException e) {
