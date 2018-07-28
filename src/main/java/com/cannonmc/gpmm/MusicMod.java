@@ -2,6 +2,9 @@ package com.cannonmc.gpmm;
 
 import java.io.File;
 import java.io.FileReader;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -10,7 +13,9 @@ import com.cannonmc.gpmm.commands.MusicCommand;
 import com.cannonmc.gpmm.commands.RetardChat;
 import com.cannonmc.gpmm.commands.SprintCommand;
 import com.cannonmc.gpmm.config.Config;
+import com.cannonmc.gpmm.util.MusicModThreadFactory;
 import com.cannonmc.gpmm.util.UpdateCheck;
+import com.cannonmc.gpmm.weather.UpdateWeatherThread;
 import com.cannonmc.gpmm.weather.WeatherGetter;
 
 import net.minecraft.client.Minecraft;
@@ -60,6 +65,8 @@ public class MusicMod
     public static String hexColour = "77e2ea";
    
     public static int requestCounter = 0;
+    
+    public static final ExecutorService THREAD_POOL;
     
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -243,5 +250,9 @@ public class MusicMod
     	}else {
     		return false;
     	}
+    }
+    
+    static {
+        THREAD_POOL = Executors.newCachedThreadPool(new MusicModThreadFactory());
     }
 }

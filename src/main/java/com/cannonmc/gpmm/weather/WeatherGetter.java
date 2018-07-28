@@ -8,10 +8,8 @@ import org.apache.commons.io.IOUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import com.cannonmc.gpmm.MusicMod;
 import com.cannonmc.gpmm.config.Config;
-
-import akka.io.TcpConnection.UpdatePendingWrite;
-import scala.collection.parallel.ParSeqLike.Updated;
 
 public class WeatherGetter {
 	
@@ -25,7 +23,7 @@ public class WeatherGetter {
 	
 	public static void weatherCheck() {
 		if (java.time.LocalTime.now().getMinute() == 0 && updatedWeather == false) {
-			updateWeather();
+			MusicMod.THREAD_POOL.submit(new UpdateWeatherThread());
 			updatedWeather = true;
 		}else if(java.time.LocalTime.now().getMinute() == 5 && updatedWeather == true){
 			System.out.println("Weather update: Ready");
