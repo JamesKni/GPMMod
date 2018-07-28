@@ -11,6 +11,7 @@ import com.cannonmc.gpmm.commands.RetardChat;
 import com.cannonmc.gpmm.commands.SprintCommand;
 import com.cannonmc.gpmm.config.Config;
 import com.cannonmc.gpmm.util.UpdateCheck;
+import com.cannonmc.gpmm.weather.WeatherGetter;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -32,12 +33,11 @@ import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 public class MusicMod
 {
     public static final String MODID = "gpmm";
-    public static final String VERSION = "1";
+    public static final String VERSION = "1.1";
     public static final String ACCEPTED_VERSIONS = "[1.8, 1.8.9]";
     private static final Minecraft mc = Minecraft.getMinecraft();
     public static boolean outdated = false;
     public static String OS;
-    //test
     private File configFile;
    
     public static final String playbackFileWindows = System.getProperty("user.home") + "\\AppData\\Roaming\\Google Play Music Desktop Player\\json_store\\playback.json";
@@ -84,10 +84,17 @@ public class MusicMod
     	hexColour = Config.CFcolour;
     	sprinting = Config.CFsprinting;
     	playbackFileFallback = Config.CFfallbackjson;
+    	
+    	if (Config.CFweatherhud) {
+        	WeatherGetter.updateWeather();
+    	}
     }
     
     @SubscribeEvent
     public void onTick(final TickEvent.ClientTickEvent e) {
+    	if (Config.CFweatherhud) {
+        	WeatherGetter.weatherCheck();
+    	}
     	final int keySprint = this.mc.gameSettings.keyBindSprint.getKeyCode();
     	
     	if(updateUI == true) {
@@ -138,6 +145,10 @@ public class MusicMod
     
     @SubscribeEvent
     public void onRenderGameOverlay(final RenderGameOverlayEvent e) {
+    	if (Config.CFweatherhud) {
+        	this.mc.fontRendererObj.drawStringWithShadow(WeatherGetter.CURRENT_CONDIDTIONS + ", " + WeatherGetter.CURRENT_TEMP.substring(0,4) + "C", Config.CFweatherX, 5, Integer.parseInt(hexColour, 16));
+        }
+    	
         if (e.type != RenderGameOverlayEvent.ElementType.TEXT || !updateUI || !hiddenHUD) {
             return;
         }
@@ -156,14 +167,13 @@ public class MusicMod
         	playingWidth = 1;
         }
         this.mc.renderEngine.bindTexture(new ResourceLocation("gpmm", "texture/playbar.png"));
-        this.mc.ingameGUI.drawTexturedModalRect(0, height-2, 0, 0, (int)playingWidth, 5);
+        this.mc.ingameGUI.drawTexturedModalRect(0, height-2, 0, 0, (int)playingWidth, 5); 
         
         if (outdated && Config.CFupdatenotifications) {
         	this.mc.fontRendererObj.drawStringWithShadow("OUT OF DATE", width-85, (float)(height - this.mc.fontRendererObj.FONT_HEIGHT - 7), Integer.parseInt("FF0000", 16));
         	this.mc.renderEngine.bindTexture(new ResourceLocation("gpmm", "texture/outofdate.png"));
         	this.mc.ingameGUI.drawScaledCustomSizeModalRect(width-20, height-22, 0, 0, 20, 20, 20, 20, 20, 20);
         }
-           
     }
     
     public static void sprintToggle() {
