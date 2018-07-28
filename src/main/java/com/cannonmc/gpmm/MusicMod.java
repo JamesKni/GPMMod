@@ -145,12 +145,16 @@ public class MusicMod
     
     @SubscribeEvent
     public void onRenderGameOverlay(final RenderGameOverlayEvent e) {
+        if (e.type != RenderGameOverlayEvent.ElementType.TEXT) {
+            return;
+        }
+   
     	if (Config.CFweatherhud) {
         	this.mc.fontRendererObj.drawStringWithShadow(WeatherGetter.CURRENT_CONDIDTIONS + ", " + WeatherGetter.CURRENT_TEMP.substring(0,4) + "C", Config.CFweatherX, 5, Integer.parseInt(hexColour, 16));
         }
     	
-        if (e.type != RenderGameOverlayEvent.ElementType.TEXT || !updateUI || !hiddenHUD) {
-            return;
+        if (!updateUI || !hiddenHUD) {
+        	return;
         }
         final ScaledResolution scaled = new ScaledResolution(this.mc);
         int width = scaled.getScaledWidth();
