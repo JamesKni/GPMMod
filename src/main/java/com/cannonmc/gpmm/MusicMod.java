@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -14,8 +13,6 @@ import com.cannonmc.gpmm.commands.RetardChat;
 import com.cannonmc.gpmm.commands.SprintCommand;
 import com.cannonmc.gpmm.config.Config;
 import com.cannonmc.gpmm.util.MusicModThreadFactory;
-import com.cannonmc.gpmm.util.UpdateCheck;
-import com.cannonmc.gpmm.weather.UpdateWeatherThread;
 import com.cannonmc.gpmm.weather.WeatherGetter;
 
 import net.minecraft.client.Minecraft;
@@ -41,7 +38,6 @@ public class MusicMod
     public static final String VERSION = "1.3";
     public static final String ACCEPTED_VERSIONS = "[1.8, 1.8.9]";
     private static final Minecraft mc = Minecraft.getMinecraft();
-    public static boolean outdated = false;
     public static String OS;
     private File configFile;
    
@@ -72,7 +68,6 @@ public class MusicMod
     public void preInit(FMLPreInitializationEvent event) {
     	configFile = event.getSuggestedConfigurationFile();
     	Config.init(configFile);
-    	UpdateCheck.versionCheck();
     	OSFinder();
     }
     
@@ -184,13 +179,6 @@ public class MusicMod
         this.mc.renderEngine.bindTexture(new ResourceLocation("gpmm", "texture/playbar.png"));
         this.mc.ingameGUI.drawTexturedModalRect(0, height-2, 0, 0, (int)playingWidth, 5); 
         
-
-        
-        if (outdated && Config.CFupdatenotifications) {
-        	this.mc.fontRendererObj.drawStringWithShadow("OUT OF DATE", width-85, (float)(height - this.mc.fontRendererObj.FONT_HEIGHT - 7), Integer.parseInt("FF0000", 16));
-        	this.mc.renderEngine.bindTexture(new ResourceLocation("gpmm", "texture/outofdate.png"));
-        	this.mc.ingameGUI.drawScaledCustomSizeModalRect(width-20, height-22, 0, 0, 20, 20, 20, 20, 20, 20);
-        }
     }
     
     public static void sprintToggle() {
