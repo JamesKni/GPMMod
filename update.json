@@ -5,6 +5,6 @@
 		"1.8.9-recommended": "1.4.0"
 	},
 	"1.8.9": {
-		"1.4.0": "Changed to use the forge update checker"
+		"1.4.0": "Changed to use the forge update checker, Changed method to get temprature"
 	}
 }

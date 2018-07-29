@@ -21,7 +21,9 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.common.ForgeVersion;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -35,7 +37,7 @@ import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 public class MusicMod
 {
     public static final String MODID = "gpmm";
-    public static final String VERSION = "1.3";
+    public static final String VERSION = "1.3.0";
     public static final String ACCEPTED_VERSIONS = "[1.8, 1.8.9]";
     private static final Minecraft mc = Minecraft.getMinecraft();
     public static String OS;
@@ -89,6 +91,7 @@ public class MusicMod
     	if (Config.CFweatherhud) {
         	WeatherGetter.updateWeather();
     	}
+    	
     }
     
     @SubscribeEvent
@@ -156,7 +159,7 @@ public class MusicMod
         final int colour = Integer.parseInt(hexColour, 16);
    
     	if (Config.CFweatherhud) {
-        	this.mc.fontRendererObj.drawStringWithShadow(WeatherGetter.CURRENT_TEMP.substring(0,4) + " C", width - 80, 25, Integer.parseInt("888888", 16));
+        	this.mc.fontRendererObj.drawStringWithShadow(WeatherGetter.CURRENT_TEMP + " C", width - 88, 28, Integer.parseInt("888888", 16));
             this.mc.renderEngine.bindTexture(new ResourceLocation("gpmm", "icons/" + WeatherGetter.CURRENT_ICON + ".png"));
         	this.mc.ingameGUI.drawScaledCustomSizeModalRect(width-60, 0, 0, 0, 40, 40, 50, 50, 50, 50);
 

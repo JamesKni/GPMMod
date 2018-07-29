@@ -53,7 +53,7 @@ public class WeatherGetter {
 			JSONObject currently = (JSONObject) jsonObject.get("currently");
 
 			CURRENT_CONDIDTIONS = (String) currently.get("summary");
-			CURRENT_TEMP = (String) currently.get("temperature");
+			CURRENT_TEMP = Double.toString((Double) currently.get("temperature"));
 			CURRENT_ICON = (String) currently.get("icon");
 			System.out.println("Weather updated");
 		}catch (Exception e) {
