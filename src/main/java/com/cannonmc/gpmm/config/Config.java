@@ -13,7 +13,6 @@ public class Config {
     
     public static String CFcolour;
     public static boolean CFsprinting;
-    public static boolean CFupdatenotifications;
     public static int CFrequestspeed;
     public static String CFfallbackjson;
     
@@ -35,7 +34,6 @@ public class Config {
     	config.addCustomCategoryComment("weather", "Contains options for the weather display settings");
         CFcolour = Config.config.getString("TextColour", CATEGORY_GENERAL, "77E2EA", "Colour of text (HEX)");
         CFsprinting = Config.config.getBoolean("Sprinting", CATEGORY_GENERAL, false, "Start with sprint toggled on");
-        CFupdatenotifications = Config.config.getBoolean("UpdateNotifications", CATEGORY_GENERAL, true, "Be notified if a new version is avalible");
         CFrequestspeed = Config.config.getInt("RequestSpeed", CATEGORY_GENERAL, 5, 2 , 100, "The Speed at which the mod accesses the playback file");
         CFfallbackjson = Config.config.getString("FallbackJSON", CATEGORY_GENERAL, "/", "Used if the json file is not in one of the usual locations");
         
