@@ -5,6 +5,6 @@
 		"1.8.9-recommended": "1.4.0"
 	},
 	"1.8.9": {
-		"1.4.0": "Changed to use the forge update checker\n Changed method to get temprature\n Weather icons now follow the chosen colour"
+		"1.4.0": "Changed to use the forge update checker\nChanged method to get temprature\nWeather icons now follow the chosen colour"
 	}
 }
