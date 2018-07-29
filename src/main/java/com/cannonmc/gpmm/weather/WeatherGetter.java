@@ -23,10 +23,10 @@ public class WeatherGetter {
 	private static boolean updatedWeather = false;
 	
 	public static void weatherCheck() {
-		if (java.time.LocalTime.now().getMinute() == 0 && updatedWeather == false) {
+		if ((java.time.LocalTime.now().getMinute() == 0 || java.time.LocalTime.now().getMinute() == 30) && updatedWeather == false) {
 			MusicMod.THREAD_POOL.submit(new UpdateWeatherThread());
 			updatedWeather = true;
-		}else if(java.time.LocalTime.now().getMinute() == 5 && updatedWeather == true){
+		}else if((java.time.LocalTime.now().getMinute() == 5 || java.time.LocalTime.now().getMinute() == 35) && updatedWeather == true){
 			System.out.println("Weather update: Ready");
 			updatedWeather = false;
 		}
