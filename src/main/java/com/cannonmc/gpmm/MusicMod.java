@@ -159,7 +159,7 @@ public class MusicMod
         final int colour = Integer.parseInt(hexColour, 16);
    
     	if (Config.CFweatherhud) {
-        	this.mc.fontRendererObj.drawStringWithShadow(WeatherGetter.CURRENT_TEMP + " C", width - 88, 28, Integer.parseInt("888888", 16));
+        	this.mc.fontRendererObj.drawStringWithShadow(WeatherGetter.CURRENT_TEMP + " C", width - 88, 28, colour);
             this.mc.renderEngine.bindTexture(new ResourceLocation("gpmm", "icons/" + WeatherGetter.CURRENT_ICON + ".png"));
         	this.mc.ingameGUI.drawScaledCustomSizeModalRect(width-60, 0, 0, 0, 40, 40, 50, 50, 50, 50);
 
