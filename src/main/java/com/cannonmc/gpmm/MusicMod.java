@@ -42,7 +42,7 @@ public class MusicMod
     private File configFile;
    
     public static final String playbackFileWindows = System.getProperty("user.home") + "\\AppData\\Roaming\\Google Play Music Desktop Player\\json_store\\playback.json";
-    public static final String playbackFileLinux = System.getProperty("user.home") + "\\.config\\Google Play Music Desktop Player\\\\json_store\\\\playback.json";
+    public static final String playbackFileLinux = System.getProperty("user.home") + "\\.config\\Google Play Music Desktop Player\\json_store\\playback.json";
     public static String playbackFileFallback;
     public static boolean updateUI = false;
     
