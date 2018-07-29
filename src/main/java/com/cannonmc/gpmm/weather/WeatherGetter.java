@@ -34,7 +34,7 @@ public class WeatherGetter {
 	}
 	public static String getURL() throws IOException {
 		try {
-			URL request = new URL("https://api.darksky.net/forecast/" + DS_APIKEY + "/" + LOCATION);
+			URL request = new URL("https://api.darksky.net/forecast/" + DS_APIKEY + "/" + LOCATION + "?units=auto");
 			System.out.println("Request URL: " + request);
 			String weather_report = IOUtils.toString(request);
 			return weather_report;
@@ -53,7 +53,7 @@ public class WeatherGetter {
 			JSONObject currently = (JSONObject) jsonObject.get("currently");
 
 			CURRENT_CONDIDTIONS = (String) currently.get("summary");
-			CURRENT_TEMP = Double.toString(((((Double) currently.get("temperature")) - 32)* 0.556));
+			CURRENT_TEMP = (String) currently.get("temperature");
 			CURRENT_ICON = (String) currently.get("icon");
 			System.out.println("Weather updated");
 		}catch (Exception e) {
