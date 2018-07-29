@@ -66,6 +66,10 @@ public class MusicCommand extends CommandBase {
 				showHelp();
 				break;
 			}
+			default : {
+				Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.AQUA + "Invalid command"));
+				break;
+			}
 			}
 		}
 
