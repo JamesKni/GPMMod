@@ -3,7 +3,7 @@ This mod shows the currently playing song from [GPMDP](https://www.googleplaymus
 
 NOTE: This mod is not able to control GPMDP in any way
 
-![Mod demo](https://i.imgur.com/446POGL.png)
+![Mod demo](https://i.imgur.com/ivRJb4B.png)
 
 
 ## Commands
@@ -26,3 +26,9 @@ NOTE: This mod is not able to control GPMDP in any way
 ### /retard (message)
  - rETArds yOUr mESSage FOr YOU 
  
+ ## Experemental
+ 
+### Weather HUD
+![Weather HUD](https://i.imgur.com/o5SquRd.png)
+
+The weather HUD can be enabled in the config. You will also need to give your [DarkSky API key](https://darksky.net/dev) and location.  
