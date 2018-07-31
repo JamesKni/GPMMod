@@ -13,6 +13,7 @@ import com.cannonmc.gpmm.commands.RetardChat;
 import com.cannonmc.gpmm.commands.SprintCommand;
 import com.cannonmc.gpmm.config.Config;
 import com.cannonmc.gpmm.util.MusicModThreadFactory;
+import com.cannonmc.gpmm.util.OSCheck;
 import com.cannonmc.gpmm.weather.WeatherGetter;
 
 import net.minecraft.client.Minecraft;
@@ -38,12 +39,9 @@ public class MusicMod
     public static final String VERSION = "1.4.2";
     public static final String ACCEPTED_VERSIONS = "[1.8, 1.8.9]";
     private static final Minecraft mc = Minecraft.getMinecraft();
-    public static String OS;
     private File configFile;
-   
-    public static final String playbackFileWindows = System.getProperty("user.home") + "\\AppData\\Roaming\\Google Play Music Desktop Player\\json_store\\playback.json";
-    public static final String playbackFileLinux = System.getProperty("user.home") + "\\.config\\Google Play Music Desktop Player\\json_store\\playback.json";
-    public static String playbackFileFallback;
+ 
+
     public static boolean updateUI = false;
     
     public String title;
@@ -68,7 +66,7 @@ public class MusicMod
     public void preInit(FMLPreInitializationEvent event) {
     	configFile = event.getSuggestedConfigurationFile();
     	Config.init(configFile);
-    	OSFinder();
+    	OSCheck.init();
     }
     
     @EventHandler
@@ -84,7 +82,7 @@ public class MusicMod
     public void postInit(FMLPostInitializationEvent event) {
     	hexColour = Config.CFcolour;
     	sprinting = Config.CFsprinting;
-    	playbackFileFallback = Config.CFfallbackjson;
+    	
     	
     	if (Config.CFweatherhud) {
         	WeatherGetter.updateWeather();
@@ -189,43 +187,13 @@ public class MusicMod
     public static void sprintToggle() {
     	sprinting = !sprinting;
     }
-    
-    public static void OSFinder() {
-    	try {
-    		System.out.println("Windows test...");
-    		OS = "windows";
-    		FileReader testFile = new FileReader(playbackFileWindows);
-    		testFile.close();
-    	} catch(Exception e) {
-    		System.out.println("FAILED");
-    		try {
-    			System.out.println("Linux test...");
-    			OS = "linux";
-    			FileReader testFile = new FileReader(playbackFileLinux);
-        		testFile.close();
-    		}catch (Exception ex) {
-    			System.out.println("FAILED - USING FALLBACK PATH");
-    			OS = "unknown";
-    		}
-    	}
-    }
-    
-    
  
 	public void updatePlayback() {
     	JSONParser parser = new JSONParser();
 		
 		try {
-			FileReader file;
-			if (OS == "windows") {
-				file = new FileReader(playbackFileWindows);
-			}else if (OS == "linux") {
-				file = new FileReader(playbackFileLinux);
-			}else {
-				file = new FileReader(playbackFileFallback);
-			}
 			
-			Object obj = parser.parse(file);
+			Object obj = parser.parse(OSCheck.getJSONPath());
 			JSONObject jsonObject = (JSONObject) obj;
 			JSONObject song = (JSONObject) jsonObject.get("song");
 			title = (String) song.get("title");
