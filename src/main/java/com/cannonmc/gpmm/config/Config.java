@@ -10,6 +10,7 @@ public class Config {
 	public static Configuration config;
     public static final String CATEGORY_GENERAL = "general";
     public static final String CATEGORY_WEATHER = "weather";
+    public static final String CATEGORY_TIME = "time";
     
     public static String CFcolour;
     public static boolean CFsprinting;
@@ -19,6 +20,8 @@ public class Config {
     public static boolean CFweatherhud;
     public static String CFDARKSKY_API_KEY;
     public static String CFlocation;
+    
+    public static boolean CFtimehud;
     
     
     public static void init(File file) {
@@ -31,7 +34,8 @@ public class Config {
     
     public static void loadConfig() {
     	config.load();
-    	config.addCustomCategoryComment("weather", "Contains options for the weather display settings");
+    	config.addCustomCategoryComment(CATEGORY_WEATHER, "Contains options for the weather display settings");
+    	config.addCustomCategoryComment(CATEGORY_TIME, "Contains options for the time display settings");
         CFcolour = Config.config.getString("TextColour", CATEGORY_GENERAL, "77E2EA", "Colour of text (HEX)");
         CFsprinting = Config.config.getBoolean("Sprinting", CATEGORY_GENERAL, false, "Start with sprint toggled on");
         CFrequestspeed = Config.config.getInt("RequestSpeed", CATEGORY_GENERAL, 5, 2 , 100, "The Speed at which the mod accesses the playback file");
@@ -39,6 +43,9 @@ public class Config {
         CFweatherhud = Config.config.getBoolean("WeatherHUD", CATEGORY_WEATHER, false, "Enable weather HUD");
         CFDARKSKY_API_KEY = Config.config.getString("DARKSKY_API_KEY", CATEGORY_WEATHER, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX", "Put your Dark Sky API key here. https://darksky.net/dev");
         CFlocation = Config.config.getString("Location", CATEGORY_WEATHER, "51.5031729,-0.1873927", "Put your latitude and longitude here");
+        
+        CFtimehud = Config.config.getBoolean("TimeHUD", CATEGORY_TIME, false, "Enable time HUD");
+
     }
     
     public static void updateConfig() {

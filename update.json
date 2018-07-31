@@ -7,6 +7,7 @@
 	"1.8.9": {
 		"1.4.0": "Changed to use the forge update checker\nChanged method to get temprature\nWeather icons now follow the chosen colour",
 		"1.4.1": "Calls to the API are more frequent",
-		"1.4.2": "Weather icons been made smaller"
+		"1.4.2": "Weather icons been made smaller",
+		"1.4.3": "Removed custom PATH\nFixed linux detection\nAdded time HUD"
 	}
 }

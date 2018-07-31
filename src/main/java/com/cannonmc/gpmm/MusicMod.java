@@ -155,9 +155,10 @@ public class MusicMod
         int width = scaled.getScaledWidth();
         final int height = scaled.getScaledHeight();
         final int colour = Integer.parseInt(hexColour, 16);
-   
+        int iconSize = 40;
+        
     	if (Config.CFweatherhud) {
-    		int iconSize = 40;
+    		
         	this.mc.fontRendererObj.drawStringWithShadow(WeatherGetter.CURRENT_TEMP + "C", width - iconSize-30, (float) (iconSize / 2), colour);
             this.mc.renderEngine.bindTexture(new ResourceLocation("gpmm", "icons/" + WeatherGetter.CURRENT_ICON + ".png"));
     		this.mc.fontRendererObj.drawStringWithShadow("", 0, 0, Integer.parseInt("000000", 16));
@@ -166,6 +167,10 @@ public class MusicMod
         	this.mc.ingameGUI.drawScaledCustomSizeModalRect(width-iconSize, 0, 0, 0, iconSize, iconSize, iconSize, iconSize, iconSize, iconSize);
         	
         }
+    	
+    	if (Config.CFtimehud) {
+    		this.mc.fontRendererObj.drawStringWithShadow(java.time.LocalTime.now().toString(), width - iconSize-30, (float) iconSize, colour);
+    	}
     	
         if (!updateUI || !hiddenHUD) {
         	return;
