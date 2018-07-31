@@ -134,7 +134,9 @@ public class MusicMod
     
     @SubscribeEvent
     public void playerLoggedIn(final FMLNetworkEvent.ClientConnectedToServerEvent event) {
-        this.updateUI = true;
+    	if (OSCheck.OS != "unknown") {
+            this.updateUI = true;
+    	}
         
     }
     
@@ -156,7 +158,7 @@ public class MusicMod
    
     	if (Config.CFweatherhud) {
     		int iconSize = 40;
-        	this.mc.fontRendererObj.drawStringWithShadow(WeatherGetter.CURRENT_TEMP + " C", width - iconSize-30, (float) (iconSize / 2), colour);
+        	this.mc.fontRendererObj.drawStringWithShadow(WeatherGetter.CURRENT_TEMP + "C", width - iconSize-30, (float) (iconSize / 2), colour);
             this.mc.renderEngine.bindTexture(new ResourceLocation("gpmm", "icons/" + WeatherGetter.CURRENT_ICON + ".png"));
     		this.mc.fontRendererObj.drawStringWithShadow("", 0, 0, Integer.parseInt("000000", 16));
         	this.mc.ingameGUI.drawScaledCustomSizeModalRect(width-iconSize + 1, 1, 0, 0, iconSize, iconSize, iconSize, iconSize, iconSize, iconSize);
@@ -180,7 +182,7 @@ public class MusicMod
         	playingWidth = 1;
         }
         this.mc.renderEngine.bindTexture(new ResourceLocation("gpmm", "texture/playbar.png"));
-        this.mc.ingameGUI.drawTexturedModalRect(0, height-2, 0, 0, (int)playingWidth, 5); 
+        this.mc.ingameGUI.drawTexturedModalRect(0, height-2, 0, 0, (int)playingWidth, 5); 	 
         
     }
     
@@ -192,7 +194,6 @@ public class MusicMod
     	JSONParser parser = new JSONParser();
 		
 		try {
-			
 			Object obj = parser.parse(OSCheck.getJSONPath());
 			JSONObject jsonObject = (JSONObject) obj;
 			JSONObject song = (JSONObject) jsonObject.get("song");
@@ -209,7 +210,6 @@ public class MusicMod
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
-
     }
     
     public static boolean stringToBoolean(String input) {

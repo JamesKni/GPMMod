@@ -2,17 +2,16 @@ package com.cannonmc.gpmm.util;
 
 import java.io.FileReader;
 
+import com.cannonmc.gpmm.MusicMod;
 import com.cannonmc.gpmm.config.Config;
 
 public class OSCheck {
 
     public static String OS;
 	public static final String playbackFileWindows = System.getProperty("user.home") + "\\AppData\\Roaming\\Google Play Music Desktop Player\\json_store\\playback.json";
-    public static final String playbackFileLinux = System.getProperty("user.home") + "\\.config\\Google Play Music Desktop Player\\json_store\\playback.json";
-    public static String playbackFileFallback;
+    public static final String playbackFileLinux = System.getProperty("user.home") + "/.config/Google Play Music Desktop Player/json_store/playback.json";
     
     public static void init() {
-    	playbackFileFallback = Config.CFfallbackjson;
     	OSCheck.findOS();
     }
 	
@@ -20,17 +19,19 @@ public class OSCheck {
     	try {
     		System.out.println("Windows test...");
     		OS = "windows";
+    		System.out.println(playbackFileWindows);
     		FileReader testFile = new FileReader(playbackFileWindows);
     		testFile.close();
     	} catch(Exception e) {
     		System.out.println("FAILED");
     		try {
+    			System.out.println(playbackFileLinux);
     			System.out.println("Linux test...");
     			OS = "linux";
     			FileReader testFile = new FileReader(playbackFileLinux);
         		testFile.close();
     		}catch (Exception ex) {
-    			System.out.println("FAILED - USING FALLBACK PATH");
+    			System.out.println("FAILED - GPMM DISABLED");
     			OS = "unknown";
     		}
     	}
@@ -44,14 +45,12 @@ public class OSCheck {
 			}else if (OS == "linux") {
 				file = new FileReader(playbackFileLinux);
 			}else {
-				file = new FileReader(playbackFileFallback);
+				file = null;
 			}
 			return file;
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
-
 	}
-	
 }
