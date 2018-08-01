@@ -41,7 +41,6 @@ public class MusicMod
     private static final Minecraft mc = Minecraft.getMinecraft();
     private File configFile;
  
-
     public static boolean updateUI = false;
     
     public String title;
@@ -169,7 +168,7 @@ public class MusicMod
         }
     	
     	if (Config.CFtimehud) {
-    		this.mc.fontRendererObj.drawStringWithShadow(java.time.LocalTime.now().toString(), width - iconSize-30, (float) iconSize, colour);
+    		this.mc.fontRendererObj.drawStringWithShadow(java.time.LocalTime.now().toString().substring(0, 8), width - iconSize-30, (float) iconSize, colour);
     	}
     	
         if (!updateUI || !hiddenHUD) {

@@ -10,6 +10,7 @@ public class OSCheck {
     public static String OS;
 	public static final String playbackFileWindows = System.getProperty("user.home") + "\\AppData\\Roaming\\Google Play Music Desktop Player\\json_store\\playback.json";
     public static final String playbackFileLinux = System.getProperty("user.home") + "/.config/Google Play Music Desktop Player/json_store/playback.json";
+    public static final String playbackFileOSX = System.getProperty("user.home") + "/Library/Application Support/Google Play Music Desktop Player/json_store/playback.jsonn";
     
     public static void init() {
     	OSCheck.findOS();
@@ -31,8 +32,17 @@ public class OSCheck {
     			FileReader testFile = new FileReader(playbackFileLinux);
         		testFile.close();
     		}catch (Exception ex) {
-    			System.out.println("FAILED - GPMM DISABLED");
-    			OS = "unknown";
+    			System.out.println("FAILED");
+    			try {
+        			System.out.println(playbackFileOSX);
+        			System.out.println("Mac OS test...");
+        			OS = "osx";
+        			FileReader testFile = new FileReader(playbackFileOSX);
+            		testFile.close();
+        		}catch (Exception exx) {
+        			System.out.println("FAILED - GPMM DISABLED");
+        			OS = "unknown";
+        		}
     		}
     	}
     }
@@ -44,6 +54,8 @@ public class OSCheck {
 				file = new FileReader(playbackFileWindows);
 			}else if (OS == "linux") {
 				file = new FileReader(playbackFileLinux);
+			}else if (OS == "osx") {
+				file = new FileReader(playbackFileOSX);
 			}else {
 				file = null;
 			}
