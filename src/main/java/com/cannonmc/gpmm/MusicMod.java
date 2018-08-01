@@ -14,6 +14,7 @@ import com.cannonmc.gpmm.commands.SprintCommand;
 import com.cannonmc.gpmm.config.Config;
 import com.cannonmc.gpmm.util.MusicModThreadFactory;
 import com.cannonmc.gpmm.util.OSCheck;
+import com.cannonmc.gpmm.util.Playback;
 import com.cannonmc.gpmm.weather.WeatherGetter;
 
 import net.minecraft.client.Minecraft;
@@ -36,27 +37,17 @@ import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 public class MusicMod
 {
     public static final String MODID = "gpmm";
-    public static final String VERSION = "1.4.2";
+    public static final String VERSION = "1.4.3";
     public static final String ACCEPTED_VERSIONS = "[1.8, 1.8.9]";
     private static final Minecraft mc = Minecraft.getMinecraft();
     private File configFile;
  
     public static boolean updateUI = false;
-    
-    public String title;
-    public String artist;
-    public String extra;
-    public String totalTime;
-    public String currentTime;
-    public boolean songLiked;
-    public boolean songDisliked;
-    public boolean songPlaying;
-    public int hideDelay;
     public boolean hiddenHUD = true;
-    
+    public String extra;
+    public int hideDelay;
     public static boolean sprinting;
     public static String hexColour = "77e2ea";
-   
     public static int requestCounter = 0;
     
     public static final ExecutorService THREAD_POOL;
@@ -74,7 +65,7 @@ public class MusicMod
     	ClientCommandHandler.instance.registerCommand(new MusicCommand());
     	ClientCommandHandler.instance.registerCommand(new SprintCommand());
     	ClientCommandHandler.instance.registerCommand(new RetardChat());
-    	updatePlayback();
+    	Playback.update();
     }
     
     @EventHandler
@@ -82,11 +73,9 @@ public class MusicMod
     	hexColour = Config.CFcolour;
     	sprinting = Config.CFsprinting;
     	
-    	
     	if (Config.CFweatherhud) {
         	WeatherGetter.updateWeather();
     	}
-    	
     }
     
     @SubscribeEvent
@@ -98,15 +87,15 @@ public class MusicMod
     	
     	if(updateUI == true) {
     		if (requestCounter == 1) { 
-        		updatePlayback();
+        		Playback.update();
     		}else if(requestCounter == Config.CFrequestspeed){
     			requestCounter = 0;
     		}
     		requestCounter += 1;
     		
-    		if (songLiked == true) {
+    		if (Playback.songLiked == true) {
     			this.extra = "[Like]";
-    		}else if(songDisliked == true) {
+    		}else if(Playback.songDisliked == true) {
     			this.extra = "[Dislike]";
     		}else {
     			this.extra = "";
@@ -119,7 +108,7 @@ public class MusicMod
     		KeyBinding.setKeyBindState(keySprint, false);
     	}
     	
-    	if (songPlaying == false) {
+    	if (Playback.songPlaying == false) {
     		hideDelay += 1;
     		if (hideDelay > 100) {
     			hiddenHUD = false;
@@ -128,7 +117,6 @@ public class MusicMod
     		hiddenHUD = true;
     		hideDelay = 0;
 		}
-    	
     }	
     
     @SubscribeEvent
@@ -136,7 +124,6 @@ public class MusicMod
     	if (OSCheck.OS != "unknown") {
             this.updateUI = true;
     	}
-        
     }
     
     @SubscribeEvent
@@ -157,14 +144,12 @@ public class MusicMod
         int iconSize = 40;
         
     	if (Config.CFweatherhud) {
-    		
         	this.mc.fontRendererObj.drawStringWithShadow(WeatherGetter.CURRENT_TEMP + "C", width - iconSize-30, (float) (iconSize / 2), colour);
             this.mc.renderEngine.bindTexture(new ResourceLocation("gpmm", "icons/" + WeatherGetter.CURRENT_ICON + ".png"));
     		this.mc.fontRendererObj.drawStringWithShadow("", 0, 0, Integer.parseInt("000000", 16));
         	this.mc.ingameGUI.drawScaledCustomSizeModalRect(width-iconSize + 1, 1, 0, 0, iconSize, iconSize, iconSize, iconSize, iconSize, iconSize);
         	this.mc.fontRendererObj.drawStringWithShadow("", 0, 0, colour);
         	this.mc.ingameGUI.drawScaledCustomSizeModalRect(width-iconSize, 0, 0, 0, iconSize, iconSize, iconSize, iconSize, iconSize, iconSize);
-        	
         }
     	
     	if (Config.CFtimehud) {
@@ -175,11 +160,11 @@ public class MusicMod
         	return;
         }
         
-        this.mc.fontRendererObj.drawStringWithShadow(this.artist + " - " + this.title + "  " + this.extra, 5.0f, (float)(height - this.mc.fontRendererObj.FONT_HEIGHT - 2), colour);
+        this.mc.fontRendererObj.drawStringWithShadow(Playback.artist + " - " + Playback.title + "  " + this.extra, 5.0f, (float)(height - this.mc.fontRendererObj.FONT_HEIGHT - 2), colour);
         
         double playingWidth;
         try {
-        	playingWidth = (Double.parseDouble(this.currentTime) / Double.parseDouble(this.totalTime)) * 107;
+        	playingWidth = (Double.parseDouble(Playback.currentTime) / Double.parseDouble(Playback.totalTime)) * 107;
             playingWidth = (width / 100) * playingWidth;
         } catch(Exception ex) {
         	ex.printStackTrace();
@@ -187,41 +172,10 @@ public class MusicMod
         }
         this.mc.renderEngine.bindTexture(new ResourceLocation("gpmm", "texture/playbar.png"));
         this.mc.ingameGUI.drawTexturedModalRect(0, height-2, 0, 0, (int)playingWidth, 5); 	 
-        
     }
     
     public static void sprintToggle() {
     	sprinting = !sprinting;
-    }
- 
-	public void updatePlayback() {
-    	JSONParser parser = new JSONParser();
-		
-		try {
-			Object obj = parser.parse(OSCheck.getJSONPath());
-			JSONObject jsonObject = (JSONObject) obj;
-			JSONObject song = (JSONObject) jsonObject.get("song");
-			title = (String) song.get("title");
-			artist = (String) song.get("artist");
-			JSONObject rating = (JSONObject) jsonObject.get("rating");
-			songLiked = stringToBoolean((String) rating.get("liked").toString());
-			songDisliked = stringToBoolean((String) rating.get("disliked").toString());
-			songPlaying = stringToBoolean((String) jsonObject.get("playing").toString());
-			JSONObject time = (JSONObject) jsonObject.get("time");
-			currentTime = (String) time.get("current").toString();
-			totalTime = (String) time.get("total").toString();
-			
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-    }
-    
-    public static boolean stringToBoolean(String input) {
-    	if (input == "true") {
-    		return true;
-    	}else {
-    		return false;
-    	}
     }
     
     static {
