@@ -2,9 +2,6 @@ package com.cannonmc.gpmm.util;
 
 import java.io.FileReader;
 
-import com.cannonmc.gpmm.MusicMod;
-import com.cannonmc.gpmm.config.Config;
-
 public class OSCheck {
 
     public static String OS;

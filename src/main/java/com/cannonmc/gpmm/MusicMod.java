@@ -1,12 +1,8 @@
 package com.cannonmc.gpmm;
 
 import java.io.File;
-import java.io.FileReader;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 import com.cannonmc.gpmm.commands.MusicCommand;
 import com.cannonmc.gpmm.commands.RetardChat;
