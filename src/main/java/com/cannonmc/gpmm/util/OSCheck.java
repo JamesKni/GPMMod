@@ -7,7 +7,7 @@ public class OSCheck {
     public static String OS;
 	public static final String playbackFileWindows = System.getProperty("user.home") + "\\AppData\\Roaming\\Google Play Music Desktop Player\\json_store\\playback.json";
     public static final String playbackFileLinux = System.getProperty("user.home") + "/.config/Google Play Music Desktop Player/json_store/playback.json";
-    public static final String playbackFileOSX = System.getProperty("user.home") + "/Library/Application Support/Google Play Music Desktop Player/json_store/playback.jsonn";
+    public static final String playbackFileOSX = System.getProperty("user.home") + "/Library/Application Support/Google Play Music Desktop Player/json_store/playback.json";
     
     public static void init() {
     	OSCheck.findOS();

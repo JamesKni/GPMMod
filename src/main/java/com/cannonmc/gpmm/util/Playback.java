@@ -15,7 +15,6 @@ public class Playback {
 	
 	public static void update() {
     	JSONParser parser = new JSONParser();
-		
 		try {
 			Object obj = parser.parse(OSCheck.getJSONPath());
 			JSONObject jsonObject = (JSONObject) obj;
@@ -29,7 +28,6 @@ public class Playback {
 			JSONObject time = (JSONObject) jsonObject.get("time");
 			currentTime = (String) time.get("current").toString();
 			totalTime = (String) time.get("total").toString();
-			
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
