@@ -33,7 +33,7 @@ import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 public class MusicMod
 {
     public static final String MODID = "gpmm";
-    public static final String VERSION = "1.4.3";
+    public static final String VERSION = "1.4.4";
     public static final String ACCEPTED_VERSIONS = "[1.8, 1.8.9]";
     private static final Minecraft mc = Minecraft.getMinecraft();
     private File configFile;
@@ -160,8 +160,13 @@ public class MusicMod
         
         double playingWidth;
         try {
+        	/* Only works for NORMAL and LARGE GUI scale. Not even sure how this was working or how I came up with it. 
         	playingWidth = (Double.parseDouble(Playback.currentTime) / Double.parseDouble(Playback.totalTime)) * 107;
             playingWidth = (width / 100) * playingWidth;
+            */
+        	double widthSegmented = width / Double.parseDouble(Playback.totalTime);
+        	double currentWidthSegment = width / Double.parseDouble(Playback.currentTime);
+        	playingWidth = (widthSegmented / currentWidthSegment) * width;
         } catch(Exception ex) {
         	ex.printStackTrace();
         	playingWidth = 1;
