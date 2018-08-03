@@ -9,6 +9,6 @@
 		"1.4.1": "Calls to the API are more frequent",
 		"1.4.2": "Weather icons been made smaller",
 		"1.4.3": "Removed custom PATH\nFixed linux detection\nAdded time HUD\nMac OS support",
-		"1.4.4": "Fixed play bar not showing correct time on Auto and small scale"
+		"1.4.4": "Fixed play bar not showing correct time on Auto and small scale\nFixed mistake with Mac OS path"
 	}
 }

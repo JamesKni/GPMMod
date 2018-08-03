@@ -3,6 +3,7 @@ package com.cannonmc.gpmm.config;
 import java.io.File;
 
 import com.cannonmc.gpmm.MusicMod;
+import com.cannonmc.gpmm.util.ToggleSprint;
 
 import net.minecraftforge.common.config.Configuration;
 
@@ -51,8 +52,12 @@ public class Config {
     public static void updateConfig() {
     	System.out.println("Updating...");
     	loadConfig();
+    	setVars();
+    }
+    
+    public static void setVars() {
     	MusicMod.hexColour = Config.CFcolour;
-    	MusicMod.sprinting = Config.CFsprinting;
+    	ToggleSprint.sprinting = Config.CFsprinting;
     	MusicMod.requestCounter = 0;
     }
 

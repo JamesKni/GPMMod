@@ -11,6 +11,7 @@ import com.cannonmc.gpmm.config.Config;
 import com.cannonmc.gpmm.util.MusicModThreadFactory;
 import com.cannonmc.gpmm.util.OSCheck;
 import com.cannonmc.gpmm.util.Playback;
+import com.cannonmc.gpmm.util.ToggleSprint;
 import com.cannonmc.gpmm.weather.WeatherGetter;
 
 import net.minecraft.client.Minecraft;
@@ -40,11 +41,10 @@ public class MusicMod
  
     public static boolean updateUI = false;
     public boolean hiddenHUD = true;
-    public String extra;
     public int hideDelay;
-    public static boolean sprinting;
+
     public static String hexColour = "77e2ea";
-    public static int requestCounter = 0;
+    public static int requestCounter;
     
     public static final ExecutorService THREAD_POOL;
     
@@ -52,6 +52,7 @@ public class MusicMod
     public void preInit(FMLPreInitializationEvent event) {
     	configFile = event.getSuggestedConfigurationFile();
     	Config.init(configFile);
+    	Config.setVars();
     	OSCheck.init();
     }
     
@@ -66,9 +67,6 @@ public class MusicMod
     
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-    	hexColour = Config.CFcolour;
-    	sprinting = Config.CFsprinting;
-    	
     	if (Config.CFweatherhud) {
         	WeatherGetter.updateWeather();
     	}
@@ -79,7 +77,6 @@ public class MusicMod
     	if (Config.CFweatherhud) {
         	WeatherGetter.weatherCheck();
     	}
-    	final int keySprint = this.mc.gameSettings.keyBindSprint.getKeyCode();
     	
     	if(updateUI == true) {
     		if (requestCounter == 1) { 
@@ -89,19 +86,6 @@ public class MusicMod
     		}
     		requestCounter += 1;
     		
-    		if (Playback.songLiked == true) {
-    			this.extra = "[Like]";
-    		}else if(Playback.songDisliked == true) {
-    			this.extra = "[Dislike]";
-    		}else {
-    			this.extra = "";
-    		}
-    	}
-
-    	if (sprinting) {
-    		KeyBinding.setKeyBindState(keySprint, true);
-    	}else {
-    		KeyBinding.setKeyBindState(keySprint, false);
     	}
     	
     	if (Playback.songPlaying == false) {
@@ -113,6 +97,8 @@ public class MusicMod
     		hiddenHUD = true;
     		hideDelay = 0;
 		}
+    	
+    	ToggleSprint.sprintSetter();
     }	
     
     @SubscribeEvent
@@ -156,14 +142,10 @@ public class MusicMod
         	return;
         }
         
-        this.mc.fontRendererObj.drawStringWithShadow(Playback.artist + " - " + Playback.title + "  " + this.extra, 5.0f, (float)(height - this.mc.fontRendererObj.FONT_HEIGHT - 2), colour);
+        this.mc.fontRendererObj.drawStringWithShadow(Playback.artist + " - " + Playback.title + "  " + Playback.likeStatus(), 5.0f, (float)(height - this.mc.fontRendererObj.FONT_HEIGHT - 2), colour);
         
         double playingWidth;
         try {
-        	/* Only works for NORMAL and LARGE GUI scale. Not even sure how this was working or how I came up with it. 
-        	playingWidth = (Double.parseDouble(Playback.currentTime) / Double.parseDouble(Playback.totalTime)) * 107;
-            playingWidth = (width / 100) * playingWidth;
-            */
         	double widthSegmented = width / Double.parseDouble(Playback.totalTime);
         	double currentWidthSegment = width / Double.parseDouble(Playback.currentTime);
         	playingWidth = (widthSegmented / currentWidthSegment) * width;
@@ -173,10 +155,6 @@ public class MusicMod
         }
         this.mc.renderEngine.bindTexture(new ResourceLocation("gpmm", "texture/playbar.png"));
         this.mc.ingameGUI.drawTexturedModalRect(0, height-2, 0, 0, (int)playingWidth, 5); 	 
-    }
-    
-    public static void sprintToggle() {
-    	sprinting = !sprinting;
     }
     
     static {

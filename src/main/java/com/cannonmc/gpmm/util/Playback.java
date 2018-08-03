@@ -12,7 +12,7 @@ public class Playback {
     public static boolean songPlaying;
     public static String totalTime;
     public static String currentTime;
-	
+    
 	public static void update() {
     	JSONParser parser = new JSONParser();
 		try {
@@ -32,6 +32,16 @@ public class Playback {
 			e.printStackTrace();
 		}
     }
+	
+	public static String likeStatus() {
+		if (Playback.songLiked == true) {
+			return "[Like]";
+		}else if(Playback.songDisliked == true) {
+			return "[Dislike]";
+		}else {
+			return "";
+		}
+	}
     
     public static boolean stringToBoolean(String input) {
     	if (input == "true") {

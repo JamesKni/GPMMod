@@ -1,6 +1,7 @@
 package com.cannonmc.gpmm.commands;
 
 import com.cannonmc.gpmm.MusicMod;
+import com.cannonmc.gpmm.util.ToggleSprint;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -23,8 +24,8 @@ public class SprintCommand extends CommandBase {
 	}
 
 	public void processCommand(ICommandSender sender, String[] args) throws CommandException {
-		MusicMod.sprintToggle();
-		if (MusicMod.sprinting) {
+		ToggleSprint.sprintToggle();
+		if (ToggleSprint.sprinting) {
 			sender.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD + "Sprint: " + EnumChatFormatting.GREEN + "ON"));
 		}else {
 			sender.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD + "Sprint: " + EnumChatFormatting.RED +  "OFF"));
