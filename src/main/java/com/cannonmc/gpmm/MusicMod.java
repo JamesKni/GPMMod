@@ -1,14 +1,18 @@
 package com.cannonmc.gpmm;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import javax.imageio.ImageIO;
 
 import com.cannonmc.gpmm.commands.MusicCommand;
 import com.cannonmc.gpmm.commands.RetardChat;
 import com.cannonmc.gpmm.commands.SprintCommand;
 import com.cannonmc.gpmm.config.Config;
-import com.cannonmc.gpmm.util.AlbumArtGetterThread;
 import com.cannonmc.gpmm.util.MusicModThreadFactory;
 import com.cannonmc.gpmm.util.OSCheck;
 import com.cannonmc.gpmm.util.Playback;
@@ -17,6 +21,7 @@ import com.cannonmc.gpmm.weather.WeatherGetter;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -71,7 +76,15 @@ public class MusicMod
         	WeatherGetter.updateWeather();
     	}
     	
-    	MusicMod.THREAD_POOL.submit(new AlbumArtGetterThread());
+    	BufferedImage img = null; 
+    	try {
+			img = ImageIO.read(new URL(Playback.albumArt));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	
+    	DynamicTexture tex = new DynamicTexture(img);
+    	
     }
     
     @SubscribeEvent
@@ -87,7 +100,6 @@ public class MusicMod
     			requestCounter = 0;
     		}
     		requestCounter += 1;
-    		
     	}
     	
     	if (Playback.songPlaying == false) {
