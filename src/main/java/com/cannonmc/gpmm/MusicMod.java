@@ -1,5 +1,6 @@
 package com.cannonmc.gpmm;
 
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -53,6 +54,9 @@ public class MusicMod
     
     public static final ExecutorService THREAD_POOL;
     
+    public static BufferedImage image = null;
+    public static DynamicTexture DyImage = null;
+    
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
     	configFile = event.getSuggestedConfigurationFile();
@@ -68,6 +72,10 @@ public class MusicMod
     	ClientCommandHandler.instance.registerCommand(new SprintCommand());
     	ClientCommandHandler.instance.registerCommand(new RetardChat());
     	Playback.update();
+    	
+    	if(Config.CFshowalbumart) {
+        	updateAlbum();
+    	}
     }
     
     @EventHandler
@@ -75,15 +83,6 @@ public class MusicMod
     	if (Config.CFweatherhud) {
         	WeatherGetter.updateWeather();
     	}
-    	
-    	BufferedImage img = null; 
-    	try {
-			img = ImageIO.read(new URL(Playback.albumArt));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-    	
-    	DynamicTexture tex = new DynamicTexture(img);
     	
     }
     
@@ -127,6 +126,20 @@ public class MusicMod
         this.updateUI = false;
     }
     
+    public static void updateAlbum() {
+    	int iconSize = 40;
+    	
+        try {
+            URL url = new URL(Playback.albumArt);
+            image = ImageIO.read(url.openStream());
+        } catch (IOException ex) {
+            System.out.println("Unable to retrieve Image!!!");
+        }
+        
+        DyImage = new DynamicTexture(image);
+    	
+    }
+    
     @SubscribeEvent
     public void onRenderGameOverlay(final RenderGameOverlayEvent e) {
         if (e.type != RenderGameOverlayEvent.ElementType.TEXT) {
@@ -139,6 +152,17 @@ public class MusicMod
         final int colour = Integer.parseInt(hexColour, 16);
         int iconSize = 40;
         
+        if (Config.CFshowalbumart) {
+        	if(Integer.parseInt(Playback.currentTime) <= 50) {
+            	updateAlbum();
+            }
+            
+            DyImage.updateDynamicTexture();
+        	MusicMod.mc.renderEngine.getDynamicTextureLocation("GPM", DyImage);
+        	MusicMod.mc.fontRendererObj.drawStringWithShadow("", 0, 0, Integer.parseInt("ffffff", 16));
+        	MusicMod.mc.ingameGUI.drawScaledCustomSizeModalRect(width-iconSize, height-iconSize, 0, 0, iconSize, iconSize, iconSize, iconSize, iconSize, iconSize);
+        }
+
     	if (Config.CFweatherhud) {
         	this.mc.fontRendererObj.drawStringWithShadow(WeatherGetter.CURRENT_TEMP + "C", width - iconSize-30, (float) (iconSize / 2), colour);
             this.mc.renderEngine.bindTexture(new ResourceLocation("gpmm", "icons/" + WeatherGetter.CURRENT_ICON + ".png"));
@@ -160,15 +184,22 @@ public class MusicMod
         
         double playingWidth;
         try {
-        	double widthSegmented = width / Double.parseDouble(Playback.totalTime);
-        	double currentWidthSegment = width / Double.parseDouble(Playback.currentTime);
-        	playingWidth = (widthSegmented / currentWidthSegment) * width;
+        	if(!Config.CFshowalbumart) {
+        		double widthSegmented = width / Double.parseDouble(Playback.totalTime);
+            	double currentWidthSegment = width / Double.parseDouble(Playback.currentTime);
+            	playingWidth = (widthSegmented / currentWidthSegment) * width;
+        	}else {
+        		double widthSegmented = (width-iconSize) / Double.parseDouble(Playback.totalTime);
+            	double currentWidthSegment = (width-iconSize) / Double.parseDouble(Playback.currentTime);
+            	playingWidth = (widthSegmented / currentWidthSegment) * (width-iconSize);
+        	}
+        	
         } catch(Exception ex) {
         	ex.printStackTrace();
         	playingWidth = 1;
         }
         this.mc.renderEngine.bindTexture(new ResourceLocation("gpmm", "texture/playbar.png"));
-        this.mc.ingameGUI.drawTexturedModalRect(0, height-2, 0, 0, (int)playingWidth, 5); 	 
+        this.mc.ingameGUI.drawTexturedModalRect(0, height-2, 0, 0, (int)playingWidth, 5); 
     }
     
     static {

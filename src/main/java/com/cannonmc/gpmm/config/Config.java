@@ -19,6 +19,7 @@ public class Config {
     public static boolean CFsprinting;
     public static int CFrequestspeed;
     public static String CFfallbackjson;
+    public static boolean CFshowalbumart;
     
     public static boolean CFweatherhud;
     public static String CFDARKSKY_API_KEY;
@@ -42,6 +43,7 @@ public class Config {
         CFcolour = Config.config.getString("TextColour", CATEGORY_GENERAL, "77E2EA", "Text Colour(HEX)");
         CFsprinting = Config.config.getBoolean("Sprinting", CATEGORY_GENERAL, false, "Start with sprint toggled on");
         CFrequestspeed = Config.config.getInt("RequestSpeed", CATEGORY_GENERAL, 5, 2 , 100, "Playback file access limiter");
+        CFshowalbumart = Config.config.getBoolean("ShowAlbumArt", CATEGORY_GENERAL, true, "Very very experimental!");
         
         CFweatherhud = Config.config.getBoolean("WeatherHUD", CATEGORY_WEATHER, false, "Enable weather HUD");
         CFDARKSKY_API_KEY = Config.config.getString("DARKSKY_API_KEY", CATEGORY_WEATHER, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX", "Put your Dark Sky API key here. https://darksky.net/dev");
