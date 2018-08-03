@@ -4,6 +4,8 @@ import java.io.File;
 
 import com.cannonmc.gpmm.MusicMod;
 import com.cannonmc.gpmm.util.ToggleSprint;
+import com.cannonmc.gpmm.weather.UpdateWeatherThread;
+import com.cannonmc.gpmm.weather.WeatherGetter;
 
 import net.minecraftforge.common.config.Configuration;
 
@@ -53,6 +55,7 @@ public class Config {
     	System.out.println("Updating...");
     	loadConfig();
     	setVars();
+    	MusicMod.THREAD_POOL.submit(new UpdateWeatherThread());
     }
     
     public static void setVars() {

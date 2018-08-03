@@ -60,6 +60,7 @@ public class MusicCommand extends CommandBase {
 			}
 			case "update": {
 				Config.updateConfig();
+				Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.DARK_AQUA + "Updated."));
 				break;
 			}
 			case "help": {
