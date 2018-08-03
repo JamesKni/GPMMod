@@ -37,11 +37,11 @@ public class Config {
     
     public static void loadConfig() {
     	config.load();
-    	config.addCustomCategoryComment(CATEGORY_WEATHER, "Contains options for the weather display settings");
-    	config.addCustomCategoryComment(CATEGORY_TIME, "Contains options for the time display settings");
-        CFcolour = Config.config.getString("TextColour", CATEGORY_GENERAL, "77E2EA", "Colour of text (HEX)");
+    	config.addCustomCategoryComment(CATEGORY_WEATHER, "Contains options for the weather HUD");
+    	config.addCustomCategoryComment(CATEGORY_TIME, "Contains options for the time HUD");
+        CFcolour = Config.config.getString("TextColour", CATEGORY_GENERAL, "77E2EA", "Text Colour(HEX)");
         CFsprinting = Config.config.getBoolean("Sprinting", CATEGORY_GENERAL, false, "Start with sprint toggled on");
-        CFrequestspeed = Config.config.getInt("RequestSpeed", CATEGORY_GENERAL, 5, 2 , 100, "The Speed at which the mod accesses the playback file");
+        CFrequestspeed = Config.config.getInt("RequestSpeed", CATEGORY_GENERAL, 5, 2 , 100, "Playback file access limiter");
         
         CFweatherhud = Config.config.getBoolean("WeatherHUD", CATEGORY_WEATHER, false, "Enable weather HUD");
         CFDARKSKY_API_KEY = Config.config.getString("DARKSKY_API_KEY", CATEGORY_WEATHER, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX", "Put your Dark Sky API key here. https://darksky.net/dev");
