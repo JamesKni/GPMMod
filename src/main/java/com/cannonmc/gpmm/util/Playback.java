@@ -13,6 +13,8 @@ public class Playback {
     public static String totalTime;
     public static String currentTime;
     
+    public static String albumArt;
+    
 	public static void update() {
     	JSONParser parser = new JSONParser();
 		try {
@@ -21,6 +23,7 @@ public class Playback {
 			JSONObject song = (JSONObject) jsonObject.get("song");
 			title = (String) song.get("title");
 			artist = (String) song.get("artist");
+			albumArt = (String) song.get("albumArt");
 			JSONObject rating = (JSONObject) jsonObject.get("rating");
 			songLiked = stringToBoolean((String) rating.get("liked").toString());
 			songDisliked = stringToBoolean((String) rating.get("disliked").toString());

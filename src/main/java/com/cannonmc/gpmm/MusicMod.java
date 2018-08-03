@@ -8,6 +8,7 @@ import com.cannonmc.gpmm.commands.MusicCommand;
 import com.cannonmc.gpmm.commands.RetardChat;
 import com.cannonmc.gpmm.commands.SprintCommand;
 import com.cannonmc.gpmm.config.Config;
+import com.cannonmc.gpmm.util.AlbumArtGetterThread;
 import com.cannonmc.gpmm.util.MusicModThreadFactory;
 import com.cannonmc.gpmm.util.OSCheck;
 import com.cannonmc.gpmm.util.Playback;
@@ -16,7 +17,6 @@ import com.cannonmc.gpmm.weather.WeatherGetter;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -70,6 +70,8 @@ public class MusicMod
     	if (Config.CFweatherhud) {
         	WeatherGetter.updateWeather();
     	}
+    	
+    	MusicMod.THREAD_POOL.submit(new AlbumArtGetterThread());
     }
     
     @SubscribeEvent
