@@ -18,6 +18,7 @@ import com.cannonmc.gpmm.util.MusicModThreadFactory;
 import com.cannonmc.gpmm.util.OSCheck;
 import com.cannonmc.gpmm.util.Playback;
 import com.cannonmc.gpmm.util.ToggleSprint;
+import com.cannonmc.gpmm.util.DelayResetThread;
 import com.cannonmc.gpmm.weather.WeatherGetter;
 
 import net.minecraft.client.Minecraft;
@@ -48,14 +49,14 @@ public class MusicMod
     public static boolean updateUI = false;
     public boolean hiddenHUD = true;
     public int hideDelay;
-
     public static String hexColour = "77e2ea";
     public static int requestCounter;
     
     public static final ExecutorService THREAD_POOL;
     
-    public static BufferedImage image = null;
+    public static BufferedImage AlbumImage = null;
     public static DynamicTexture DyImage = null;
+    public static boolean updatedAlbumArt = false;
     
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -74,7 +75,8 @@ public class MusicMod
     	Playback.update();
     	
     	if(Config.CFshowalbumart) {
-        	updateAlbum();
+        	updateAlbumArt();
+        	setAlbumImage();
     	}
     }
     
@@ -126,18 +128,21 @@ public class MusicMod
         this.updateUI = false;
     }
     
-    public static void updateAlbum() {
+    public static void updateAlbumArt() {
     	int iconSize = 40;
     	
         try {
             URL url = new URL(Playback.albumArt);
-            image = ImageIO.read(url.openStream());
+            MusicMod.AlbumImage = ImageIO.read(url);
+            System.out.println("Getting image");
         } catch (IOException ex) {
             System.out.println("Unable to retrieve Image!!!");
         }
-        
-        DyImage = new DynamicTexture(image);
-    	
+    }
+    
+    public static void setAlbumImage() {
+    	MusicMod.DyImage = new DynamicTexture(AlbumImage);
+        System.out.println("Updated");
     }
     
     @SubscribeEvent
@@ -153,12 +158,18 @@ public class MusicMod
         int iconSize = 40;
         
         if (Config.CFshowalbumart) {
-        	if(Integer.parseInt(Playback.currentTime) <= 50) {
-            	updateAlbum();
-            }
+        	if(Integer.parseInt(Playback.currentTime) <= 1000 && Integer.parseInt(Playback.currentTime) >= 500) {
+        		if (updatedAlbumArt == false) {
+        			MusicMod.THREAD_POOL.submit(new DelayResetThread());
+        			updateAlbumArt();
+            		setAlbumImage();
+            		System.out.println(Playback.albumArt);
+            		updatedAlbumArt = true;
+        		}
+        	}
             
-            DyImage.updateDynamicTexture();
-        	MusicMod.mc.renderEngine.getDynamicTextureLocation("GPM", DyImage);
+            MusicMod.DyImage.updateDynamicTexture();
+        	MusicMod.mc.renderEngine.getDynamicTextureLocation("GPM", MusicMod.DyImage);
         	MusicMod.mc.fontRendererObj.drawStringWithShadow("", 0, 0, Integer.parseInt("ffffff", 16));
         	MusicMod.mc.ingameGUI.drawScaledCustomSizeModalRect(width-iconSize, height-iconSize, 0, 0, iconSize, iconSize, iconSize, iconSize, iconSize, iconSize);
         }

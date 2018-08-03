@@ -25,6 +25,7 @@ public class WeatherGetter {
 	public static void weatherCheck() {
 		if (java.time.LocalTime.now().getMinute() % 15 == 0 && updatedWeather == false) {
 			MusicMod.THREAD_POOL.submit(new UpdateWeatherThread());
+			MusicMod.updatedAlbumArt = false; // Just to unbreak things if they manage to break
 			updatedWeather = true;
 		}else if(java.time.LocalTime.now().getMinute() % 15 == 2  && updatedWeather == true){
 			System.out.println("Weather update: Ready");
