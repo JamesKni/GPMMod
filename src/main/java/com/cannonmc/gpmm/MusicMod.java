@@ -41,7 +41,7 @@ import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 public class MusicMod
 {
     public static final String MODID = "gpmm";
-    public static final String VERSION = "1.4.4";
+    public static final String VERSION = "1.4.5";
     public static final String ACCEPTED_VERSIONS = "[1.8, 1.8.9]";
     private static final Minecraft mc = Minecraft.getMinecraft();
     private File configFile;
@@ -129,7 +129,6 @@ public class MusicMod
     }
     
     public static void updateAlbumArt() {
-    	int iconSize = 40;
     	
         try {
             URL url = new URL(Playback.albumArt);
@@ -157,23 +156,6 @@ public class MusicMod
         final int colour = Integer.parseInt(hexColour, 16);
         int iconSize = 40;
         
-        if (Config.CFshowalbumart) {
-        	if(Integer.parseInt(Playback.currentTime) <= 1000 && Integer.parseInt(Playback.currentTime) >= 500) {
-        		if (updatedAlbumArt == false) {
-        			MusicMod.THREAD_POOL.submit(new DelayResetThread());
-        			updateAlbumArt();
-            		setAlbumImage();
-            		System.out.println(Playback.albumArt);
-            		updatedAlbumArt = true;
-        		}
-        	}
-            
-            MusicMod.DyImage.updateDynamicTexture();
-        	MusicMod.mc.renderEngine.getDynamicTextureLocation("GPM", MusicMod.DyImage);
-        	MusicMod.mc.fontRendererObj.drawStringWithShadow("", 0, 0, Integer.parseInt("ffffff", 16));
-        	MusicMod.mc.ingameGUI.drawScaledCustomSizeModalRect(width-iconSize, height-iconSize, 0, 0, iconSize, iconSize, iconSize, iconSize, iconSize, iconSize);
-        }
-
     	if (Config.CFweatherhud) {
         	this.mc.fontRendererObj.drawStringWithShadow(WeatherGetter.CURRENT_TEMP + "C", width - iconSize-30, (float) (iconSize / 2), colour);
             this.mc.renderEngine.bindTexture(new ResourceLocation("gpmm", "icons/" + WeatherGetter.CURRENT_ICON + ".png"));
@@ -191,6 +173,23 @@ public class MusicMod
         	return;
         }
         
+        if (Config.CFshowalbumart) {
+        	if(Integer.parseInt(Playback.currentTime) <= 1000 && Integer.parseInt(Playback.currentTime) >= 500) {
+        		if (updatedAlbumArt == false) {
+        			MusicMod.THREAD_POOL.submit(new DelayResetThread());
+        			updateAlbumArt();
+            		setAlbumImage();
+            		System.out.println(Playback.albumArt);
+            		updatedAlbumArt = true;
+        		}
+        	}
+            
+            this.DyImage.updateDynamicTexture();
+            this.mc.renderEngine.getDynamicTextureLocation("GPM", MusicMod.DyImage);
+            this.mc.fontRendererObj.drawStringWithShadow("", 0, 0, Integer.parseInt("ffffff", 16));
+            this.mc.ingameGUI.drawScaledCustomSizeModalRect(width-Config.CFalbumartsize, height-Config.CFalbumartsize, 0, 0, Config.CFalbumartsize, Config.CFalbumartsize, Config.CFalbumartsize, Config.CFalbumartsize, Config.CFalbumartsize, Config.CFalbumartsize);
+        }
+        
         this.mc.fontRendererObj.drawStringWithShadow(Playback.artist + " - " + Playback.title + "  " + Playback.likeStatus(), 5.0f, (float)(height - this.mc.fontRendererObj.FONT_HEIGHT - 2), colour);
         
         double playingWidth;
@@ -200,9 +199,9 @@ public class MusicMod
             	double currentWidthSegment = width / Double.parseDouble(Playback.currentTime);
             	playingWidth = (widthSegmented / currentWidthSegment) * width;
         	}else {
-        		double widthSegmented = (width-iconSize) / Double.parseDouble(Playback.totalTime);
-            	double currentWidthSegment = (width-iconSize) / Double.parseDouble(Playback.currentTime);
-            	playingWidth = (widthSegmented / currentWidthSegment) * (width-iconSize);
+        		double widthSegmented = (width-Config.CFalbumartsize) / Double.parseDouble(Playback.totalTime);
+            	double currentWidthSegment = (width-Config.CFalbumartsize) / Double.parseDouble(Playback.currentTime);
+            	playingWidth = (widthSegmented / currentWidthSegment) * (width-Config.CFalbumartsize);
         	}
         	
         } catch(Exception ex) {

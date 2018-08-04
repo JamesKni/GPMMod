@@ -60,6 +60,8 @@ public class MusicCommand extends CommandBase {
 			}
 			case "update": {
 				Config.updateConfig();
+				MusicMod.updateAlbumArt();
+				MusicMod.setAlbumImage();
 				Minecraft.getMinecraft().thePlayer.addChatMessage(new ChatComponentText(EnumChatFormatting.DARK_AQUA + "Updated."));
 				break;
 			}

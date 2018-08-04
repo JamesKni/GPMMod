@@ -20,6 +20,7 @@ public class Config {
     public static int CFrequestspeed;
     public static String CFfallbackjson;
     public static boolean CFshowalbumart;
+    public static int CFalbumartsize;
     
     public static boolean CFweatherhud;
     public static String CFDARKSKY_API_KEY;
@@ -42,8 +43,9 @@ public class Config {
     	config.addCustomCategoryComment(CATEGORY_TIME, "Contains options for the time HUD");
         CFcolour = Config.config.getString("TextColour", CATEGORY_GENERAL, "77E2EA", "Text Colour(HEX)");
         CFsprinting = Config.config.getBoolean("Sprinting", CATEGORY_GENERAL, false, "Start with sprint toggled on");
-        CFrequestspeed = Config.config.getInt("RequestSpeed", CATEGORY_GENERAL, 5, 2 , 100, "Playback file access limiter");
-        CFshowalbumart = Config.config.getBoolean("ShowAlbumArt", CATEGORY_GENERAL, true, "Very very experimental!");
+        CFrequestspeed = Config.config.getInt("RequestSpeed", CATEGORY_GENERAL, 5, 2, 100, "Playback file access limiter");
+        CFshowalbumart = Config.config.getBoolean("ShowAlbumArt", CATEGORY_GENERAL, false, "Show album art (May be unstable and lead to high RAM usage)");
+        CFalbumartsize = Config.config.getInt("AlbumArtSize", CATEGORY_GENERAL, 40, 20, 100, "Size of the album art");
         
         CFweatherhud = Config.config.getBoolean("WeatherHUD", CATEGORY_WEATHER, false, "Enable weather HUD");
         CFDARKSKY_API_KEY = Config.config.getString("DARKSKY_API_KEY", CATEGORY_WEATHER, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX", "Put your Dark Sky API key here. https://darksky.net/dev");
