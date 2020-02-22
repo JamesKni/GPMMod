@@ -10,6 +10,6 @@
 		"1.4.2": "Weather icons been made smaller",
 		"1.4.3": "Removed custom PATH\nFixed linux detection\nAdded time HUD\nMac OS support",
 		"1.4.4": "Fixed play bar not showing correct time on Auto and Small scale\nFixed mistake with Mac OS path\nFeedback from /gpm update\nUpdate command updates weather",
-		"1.4.5": "Album art has been added (Experemental)"
+		"1.4.5": "Album art has been added (Experemental)\nBug fixes"
 	}
 }
